@@ -1,7 +1,7 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """the Flask app for sprout collab"""
 from flask import Flask, make_response, jsonify
-from api.v1.views import app_views
+from .src.views import app_views
 from models import storage
 from flasgger import Swagger
 from flask_cors import CORS
@@ -9,7 +9,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-cors = CORS(app, resources={r"sc/api/v1/*": {"origins": "*"}})
+cors = CORS(app)
 
 app.register_blueprint(app_views)
 

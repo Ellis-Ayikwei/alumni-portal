@@ -13,7 +13,7 @@ class ContractMember(BaseModel, Base):
     
     is_amended = Column(Boolean, default=False)
     
-    contract_id = Column(Integer, ForeignKey('contracts.id'))
+    contract_id = Column(String(60), ForeignKey('contracts.id'))
     contract = relationship("Contract", back_populates="contract_members")
-    member_id = Column(Integer, ForeignKey('members.id'))
-    member = relationship("Member", back_populates="contract_members")
+    group_member_id = Column(String(60), ForeignKey('group_members.id'))
+    group_members = relationship("GroupMember", back_populates="contract_members")

@@ -10,7 +10,7 @@ from models.user import User
 from models.contract import Contract
 from models.contract_member import ContractMember
 from models.payment import Payment
-from models.member import Member
+from models.group_member import GroupMember
 from models.alumni_group import AlumniGroup
 
 from os import getenv
@@ -25,7 +25,7 @@ classes = {
     "Payment": Payment,
     "User": User,
     "Contract_member": ContractMember,
-    "Member": Member,
+    "GroupMember": GroupMember,
     "Alumni_group": AlumniGroup,
 }
 

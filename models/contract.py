@@ -10,9 +10,6 @@ class Contract(BaseModel, Base):
     __tablename__ = 'contracts'
 
     
-    contract_id = Column(String(50), unique=True, nullable=False)
-    
-
-    group_id = Column(Integer, ForeignKey('alumni_groups.id'))
+    group_id = Column(String(60), ForeignKey('alumni_groups.id'))
     group = relationship("AlumniGroup", back_populates="contracts")
     contract_members = relationship("ContractMember", back_populates="contract")
