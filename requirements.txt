@@ -35,3 +35,4 @@ flask_cors
 firebase-admin
 firebase
 bcrypt
+flask_login
