@@ -4,6 +4,7 @@ from flask import Blueprint
 from models import storage
 
 app_views = Blueprint('app_views', __name__, url_prefix='/alumni/api/v1', template_folder='../templates')
+app_auth = Blueprint('app_auth', __name__, url_prefix='/alumni/api/v1/auth', template_folder='../templates')
 
 """Import for the views"""
 from .index_bp import *
@@ -15,4 +16,7 @@ from .contract_members_bp import *
 from .paymets_bp import *
 from .contracts_bp import *
 from .beneficiary_bp import *
+from .Authentication.register_bp import *
+from .Authentication.login_bp import *
+from .Authentication.auth_utility import *
 

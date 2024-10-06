@@ -35,3 +35,6 @@ flask_cors
 firebase-admin
 firebase
 bcrypt
+flask_login
+cerberus
+flask-jwt-extended

@@ -27,6 +27,7 @@ def add_new_users():
         new_user = User(
             first_name=f"{i}FirstName",
             last_name=f"{i}LasttName",
+            username=f"userNo.{i}",
             password="@Toshib123",
             role="SUPER_ADMIN",
             email=f"userNo.{i}@example.com",

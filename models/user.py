@@ -21,13 +21,13 @@ class User(BaseModel, Base):
 
     
     email = Column(String(120), unique=True, nullable=False)
+    username = Column(String(50), unique=True, nullable=False)
     password = Column(String(255))
     first_name = Column(String(50))
     last_name = Column(String(50))
     role = Column(Enum(UserRole), default= UserRole.REGULAR, nullable=False)
     azure_id = Column(String(255), unique=True)
     is_active = Column(Boolean, default=True)
-
     groups = relationship("AlumniGroup", back_populates="president")
     group_member_id = Column(String(60), ForeignKey('group_members.id'))
     # member_profile = relationship("GroupMember", backref="users", uselist=False, foreign_keys="[GroupMember.user_id]")
