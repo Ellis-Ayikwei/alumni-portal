@@ -58,7 +58,8 @@ def post_user():
     """
     Creates a User
     """
-    from api.v1.src.helpers.helper_functions import is_username_already_taken
+    from api.v1.src.helpers.helper_functions import is_username_already_taken, is_email_already_registered
+
 
     data = request.get_json()
     if not data:
@@ -68,6 +69,8 @@ def post_user():
     
     if is_username_already_taken(data):
         abort(400, description="Sorry, username already taken. Please choose another one.")
+    if is_email_already_registered(data):
+        abort(400, description="Sorry, email has been registered. Please use another one.")
     if 'password' not in data or not isinstance(data['password'], str):
         abort(400, description="Invalid or missing password")
 
@@ -83,7 +86,7 @@ def post_user():
     return make_response(jsonify(new_user.to_dict()), 201)
 
 
-@app_views.route('/users/', methods=['PUT'], strict_slashes=False)
+@app_views.route('/users', methods=['PUT'], strict_slashes=False)
 #@swag_from('documentation/user/put_user.yml', methods=['PUT'])
 def put_user():
     """
@@ -92,16 +95,20 @@ def put_user():
     from api.v1.src.helpers.helper_functions import get_user_id_from_all_user
 
     data = request.get_json()
-    user_id=get_user_id_from_all_user(data)
-    user = storage.get(User, user_id)
+    
 
-    if not user:
-        abort(404)
+ 
 
     if not data:
         abort(400, description="Not a JSON")
+        
+    user_id=get_user_id_from_all_user(username=data.get('username'), email=data.get('email'))
+    user = storage.get(User, user_id)
+    print(data.get('username'))
+    if not user:
+        abort(404)
 
-    ignore = ['id', 'created_at', 'updated_at']
+    ignore = ['id', 'created_at', 'updated_at', '__class__']
 
     for key, value in data.items():
         if key not in ignore:

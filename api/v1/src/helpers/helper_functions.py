@@ -43,3 +43,16 @@ def is_username_already_taken(data: dict) -> bool:
             return True
     
     return False
+
+def is_email_already_registered(data: dict) -> bool:
+    """
+    Check if the provided email is already taken by another user.
+    """
+    users_response = get_users()
+    users_data = users_response.get_json()
+    
+    for user in users_data:
+        if user['email'] == data['email']:
+            return True
+    
+    return False

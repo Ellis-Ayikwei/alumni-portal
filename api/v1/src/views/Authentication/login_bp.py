@@ -1,16 +1,17 @@
 import logging
-from flask import Flask, current_app, jsonify, request, make_response, abort, session, url_for
-from flask_cors import CORS
-import jwt
+from flask import Flask, jsonify, request, make_response
+
+from flask_jwt_extended import create_refresh_token, get_csrf_token, set_access_cookies, set_refresh_cookies
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 import datetime
-from functools import wraps
 from flask_limiter import Limiter
-from flask_wtf.csrf import CSRFProtect, generate_csrf
 from api.v1.src.views import app_auth
-from api.v1.app import bcrypt, csrf
+from api.v1.app import bcrypt, ACCESS_EXPIRES
 from models import storage
 from models.user import User
-from .auth_utility import generate_tokens
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -40,60 +41,38 @@ def login():
     user = storage.get(User, user_id)
 
     if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token, refresh_token = generate_tokens(user.username)
+        access_token = create_access_token(identity=user.username, expires_delta=ACCESS_EXPIRES)
+        refresh_token = create_refresh_token(identity=user.username)
 
-        response = make_response(jsonify({'message': 'Logged in successfully!'}))
-        response.set_cookie('access_token', access_token, httponly=True, secure=True, samesite='Lax')
-        response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True, samesite='Lax')
-
-        csrf_token = generate_csrf()
-        response.set_cookie('csrf_token', csrf_token, httponly=True, secure=True, samesite='Lax')
-
+        response = make_response(jsonify(user.to_dict()))
+        set_access_cookies(response, access_token)
+        set_refresh_cookies(response, refresh_token)
+        csrf_access_token = get_csrf_token(access_token)
+        response.set_cookie('csrf_access_token', value=csrf_access_token, httponly=False,
+                    secure=False, path='/',
+                    expires=datetime.datetime.now() + ACCESS_EXPIRES)
         return response
 
     return jsonify({'message': 'Invalid credentials'}), 401
 
-def csrf_token():
-    """
-    Generates a CSRF token, saves it in the session and sets it as a cookie
-    on the response. The token is also returned as a JSON response.
-
-    Returns:
-        flask.Response: JSON response containing the CSRF token.
-    """
-    token = generate_csrf()
-    session['csrf_token'] = token
-    response = make_response(jsonify({'csrf_token': token}))
-    response.set_cookie('csrf_token', token)
-    logger.info(f"Generated CSRF Token: {token}")
-    return response
-# Set up logging
-
 # Route to refresh the access token
-@app_auth.route('/refresh', methods=['POST'])
-def refresh():
-    refresh_token = request.cookies.get('refresh_token')
-    if not refresh_token:
-        logger.info('Refresh token missing')
-        return jsonify({'message': 'Refresh token is missing!'}), 401
+@app_auth.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh_access_token():
+    """
+    Refresh an access token.
+    """
+    user_id = get_jwt_identity()
+    access_token = create_access_token(identity=user_id, expires_delta=ACCESS_EXPIRES)
+    refresh_token = create_refresh_token(identity=user_id)
 
-    try:
-        data = jwt.decode(refresh_token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
-        new_access_token, new_refresh_token = generate_tokens(data['user'])
+    response = make_response(jsonify({"message": "Token refreshed!"}))
+    set_access_cookies(response, access_token)
+    set_refresh_cookies(response, refresh_token)
+    csrf_access_token = get_csrf_token(access_token)
+    response.set_cookie('csrf_access_token', value=csrf_access_token, httponly=False, 
+                    secure=False, path='/', 
+                    expires=datetime.datetime.now() + ACCESS_EXPIRES)
 
-        # Refresh both tokens, rotate refresh token
-        resp = make_response(jsonify({'message': 'Token refreshed!'}))
-        resp.set_cookie('access_token', new_access_token, httponly=True, secure=True, samesite='Lax')
-        resp.set_cookie('refresh_token', new_refresh_token, httponly=True, secure=True, samesite='Lax')
 
-        # Generate and send CSRF token
-        csrf_token = generate_csrf()
-        resp.set_cookie('csrf_token', csrf_token, httponly=False, secure=True, samesite='Lax')  # Allow JS access
-        logger.info(f"Access token refreshed for user '{data['user']}'")
-        return resp
-    except jwt.ExpiredSignatureError:
-        logger.warning('Refresh token expired')
-        return jsonify({'message': 'Refresh token expired!'}), 401
-    except jwt.InvalidTokenError:
-        logger.warning('Invalid refresh token')
-        return jsonify({'message': 'Invalid refresh token!'}), 401
+    return response

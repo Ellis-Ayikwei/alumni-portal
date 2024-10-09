@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """The Flask app for Sprout Collab"""
 
+import datetime
 import os
 from flask import Flask, make_response, jsonify
+import redis
 
 
 from .src.views import app_views, app_auth
@@ -10,25 +12,56 @@ from models import storage
 from flasgger import Swagger
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_wtf.csrf import CSRFProtect
+from flask_jwt_extended import JWTManager
 
 # Initialize Bcrypt and CSRF globally
 bcrypt = Bcrypt()
-csrf = CSRFProtect()
+jwt_redis_blocklist = redis.StrictRedis(
+    host="localhost", port=6379, db=0, decode_responses=True
+)
+
+ACCESS_EXPIRES = datetime.timedelta(hours=1)
 
 def create_app():
     app = Flask(__name__)
+    jwt =JWTManager(app)
+    
+    
+    
+    @jwt.token_in_blocklist_loader
+    def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
+        jti = jwt_payload["jti"]
+        token_in_redis = jwt_redis_blocklist.get(jti)
+        return token_in_redis is not None
+    
     app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_default_secret')
-    app.config['SESSION_COOKIE_SECURE'] = True  # Ensure HTTPS
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Prevent CSRF
-    app.config['SESSION_TYPE'] = 'filesystem'
+    # app.config['JWT_COOKIE_CSRF_PROTECT']  = False
+    # app.config['JWT_COOKIE_SECURE'] = False
+    # app.config['JWT_COOKIE_SAMESITE'] = 'None'
+    # app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = 'csrf_access_token'
+    # app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token_cookie'
+    # app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
+    # app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = 'X-CSRF-Token'
+    # app.config['JWT_ACCESS_TOKEN_EXPIRES'] = ACCESS_EXPIRES
+    # app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=7)
+    # app.config['JWT_TOKEN_LOCATION'] = ['cookies', 'headers']
+    
+    
+    app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+
+    # If true this will only allow the cookies that contain your JWTs to be sent
+    # over https. In production, this should always be set to True
+    app.config["JWT_COOKIE_SECURE"] = False
+
+    # Change this in your code!
+    app.config["JWT_SECRET_KEY"] = "super-secret"
+
 
     # Initialize extensions
     bcrypt.init_app(app)
-    CORS(app, supports_credentials=True)
-    csrf.init_app(app)
+    CORS(app, resources={r"*": {"origins": "*"}}, supports_credentials=True)
+    
 
     # Register blueprints
     app.register_blueprint(app_views)
@@ -59,8 +92,6 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    from api.v1.src.views.Authentication.login_bp import login
-
     app = create_app()
-    csrf.exempt(login)
     app.run(host="0.0.0.0", port=5004, threaded=True, debug=True)
+

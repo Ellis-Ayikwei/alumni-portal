@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import datetime
 from colorama import init, Fore, Style
 
 from models import storage
@@ -29,7 +30,11 @@ def add_new_users():
             last_name=f"{i}LasttName",
             username=f"userNo.{i}",
             password="@Toshib123",
+            dob = datetime.datetime.utcnow(),
+            phone_number=f"123{i + 1}567{i}90",
             role="SUPER_ADMIN",
+            address = f"1{i + 3}{i}3 Main St",
+            occupation = f"{i}Occupation",
             email=f"userNo.{i}@example.com",
         )
         new_user.save()

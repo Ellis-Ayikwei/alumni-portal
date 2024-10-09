@@ -28,8 +28,14 @@ class User(BaseModel, Base):
     role = Column(Enum(UserRole), default= UserRole.REGULAR, nullable=False)
     azure_id = Column(String(255), unique=True)
     is_active = Column(Boolean, default=True)
+    dob = Column(Date, nullable=True)
+    phone = Column(String(20), nullable=True)
     groups = relationship("AlumniGroup", back_populates="president")
+    occupation = Column(String(50), nullable=True)
+    address = Column(String(255), nullable=True)
+    other_names = Column(String(50), nullable=True)
     group_member_id = Column(String(60), ForeignKey('group_members.id'))
+    
     # member_profile = relationship("GroupMember", backref="users", uselist=False, foreign_keys="[GroupMember.user_id]")
     
     def __init__(self, *args, **kwargs):

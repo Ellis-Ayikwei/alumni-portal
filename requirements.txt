@@ -40,3 +40,4 @@ cerberus
 flask-jwt-extended
 flask-wtf
 Flask-Session
+redis

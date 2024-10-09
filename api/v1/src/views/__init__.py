@@ -18,5 +18,6 @@ from .contracts_bp import *
 from .beneficiary_bp import *
 from .Authentication.register_bp import *
 from .Authentication.login_bp import *
-from .Authentication.auth_utility import *
+from .Authentication.logout_bp import *
+#from .Authentication.auth_utility import *
 
