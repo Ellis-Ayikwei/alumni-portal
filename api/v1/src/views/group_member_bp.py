@@ -1,8 +1,26 @@
+from click import group
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.group_member import GroupMember
 
 from api.v1.src.views import app_views
+
+
+
+
+# @app_views.route('/all_group_presidents', methods=['GET'])
+# def get_all_group_presidents():
+#     """Retrieve all group presidents"""
+#     group_presidents = storage.all(President)
+#     presidents_list = []
+#     for president in group_presidents:
+#         president_dict = president.to_dict()
+#         president_dict['user'] = president.user.to_dict()
+#         president["group"] = president.group.to_dict()
+#         presidents_list.append(president_dict)
+        
+#     return jsonify(presidents_list), 200
+
 @app_views.route('/group_members', methods=['GET'])
 def get_all_group_members():
     """Retrieve all group members"""

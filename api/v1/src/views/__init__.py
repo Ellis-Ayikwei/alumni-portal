@@ -13,6 +13,7 @@ from .alumni_group_bp import *
 from .group_member_bp import *
 from .amemdemt_bp import *
 from .contract_members_bp import *
+from .insurance_package_bp import *
 from .paymets_bp import *
 from .contracts_bp import *
 from .beneficiary_bp import *

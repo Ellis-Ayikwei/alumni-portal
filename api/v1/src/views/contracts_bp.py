@@ -12,12 +12,17 @@ def get_all_contracts():
 
 
 @app_views.route('/contracts/<contract_id>', methods=['GET'])
-def get_contract(contract_id):
+def get_contract_by_id(contract_id):
     """Retrieve a specific contract by ID"""
     contract = storage.get(Contract, contract_id)
     if contract is None:
         abort(404, description="Contract not found")
-    return jsonify(contract.to_dict()), 200
+
+    contract_dict = contract.to_dict()
+    contract_member_dicts = [member.to_dict() for member in contract.contract_members]
+    contract_dict['contract_members'] = contract_member_dicts
+
+    return jsonify(contract_dict), 200
 
 
 @app_views.route('/contracts', methods=['POST'])

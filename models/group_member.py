@@ -5,28 +5,21 @@ from datetime import datetime
 import enum
 from models.basemodel import BaseModel, Base
 
-# class Status(enum.Enum):
-#     PENDING = "PENDING"
-#     VALIDATED = "VALIDATED"
+class Status(enum.Enum):
+    PENDING = "PENDING"
+    VALIDATED = "VALIDATED"
 
 
 class GroupMember(BaseModel, Base):
     __tablename__ = 'group_members'
 
 
-    first_name = Column(String(50), nullable=False)
-    last_name = Column(String(50), nullable=False)
-    middle_names = Column(String(100))
-    gender = Column(String(10))
-    cellphone = Column(String(20))
-    date_of_birth = Column(Date)
-    is_validated = Column(Boolean, default=False)
+    
     added_by = Column(String(60), ForeignKey('users.id'))
-    email = Column(String(60), nullable=False)
-    Alumni_group_id = Column(String(60), ForeignKey('alumni_groups.id'))
-    group = relationship("AlumniGroup", back_populates="group_members")
+    group_id = Column(String(60), ForeignKey('alumni_groups.id'))
+    status = Column(Enum(Status), default=Status.PENDING, nullable=False)
+    is_validated = Column(Boolean, default=False)
     beneficiaries = relationship("Beneficiary", back_populates="group_members")
-    contract_members = relationship("ContractMember", back_populates="group_members")
     
     
     

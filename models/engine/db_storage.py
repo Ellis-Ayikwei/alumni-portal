@@ -6,6 +6,9 @@ Contains the class DBStorage
 import models
 from models.basemodel import BaseModel, Base
 from models.beneficiary import Beneficiary
+from models.benefit import Benefit
+from models.claim import Claim
+from models.insurance_package import InsurancePackage
 from models.user import User
 from models.contract import Contract
 from models.contract_member import ContractMember
@@ -23,10 +26,13 @@ classes = {
     "Beneficiary": Beneficiary,
     "Contract": Contract,
     "Payment": Payment,
+    "Benefit": Benefit,
+    "InsurancePackage": InsurancePackage,
     "User": User,
     "Contract_member": ContractMember,
     "GroupMember": GroupMember,
     "Alumni_group": AlumniGroup,
+    "Claim": Claim,
 }
 
 

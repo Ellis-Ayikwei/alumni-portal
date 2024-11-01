@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """the blue print for the index"""
+import json
+from urllib import response
 from flask import Flask, jsonify, render_template
 from api.v1.src.views import app_views
 from models import storage
@@ -10,10 +12,12 @@ def status():
     """to check the status of the api"""
     return jsonify({'status' : 'ok you are connected to sprout collab1 api'})
 
-@app_views.route("/home")
-def home():
-    """"the home route """
-    return render_template("index.html")
+
+@app_views.route("/", strict_slashes=False)
+def index():
+    """the index route"""
+    return jsonify({"response" : "successful hit to the api"}), 200
+
 
 @app_views.route("/stats")
 def storage_counts():

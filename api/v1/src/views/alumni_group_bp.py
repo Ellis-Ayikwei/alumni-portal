@@ -7,7 +7,14 @@ from api.v1.src.views import app_views
 def get_all_alumni_groups():
     """Retrieve all alumni groups"""
     alumni_groups = storage.all(AlumniGroup).values()
-    alumni_groups_list = [group.to_dict() for group in alumni_groups]
+    alumni_groups_list = []
+    for group in alumni_groups:
+        group_dict = group.to_dict()
+        group_dict['members'] = [member.to_dict() for member in group.members]
+        group_dict['contracts'] = [contract.to_dict() for contract in group.contracts]
+        group_dict['insurance_package'] = group.insurance_package.to_dict()
+        group_dict['president'] = group.president.to_dict()
+        alumni_groups_list.append(group_dict)
     return jsonify(alumni_groups_list), 200
 
 

@@ -19,24 +19,29 @@ class UserRole(enum.Enum):
 class User(BaseModel, Base):
     __tablename__ = 'users'
 
-    
+    id = Column(String(60), primary_key=True)
     email = Column(String(120), unique=True, nullable=False)
     username = Column(String(50), unique=True, nullable=False)
-    password = Column(String(255))
-    first_name = Column(String(50))
-    last_name = Column(String(50))
-    role = Column(Enum(UserRole), default= UserRole.REGULAR, nullable=False)
+    password = Column(String(255), nullable=False)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    middle_names = Column(String(100), nullable=True)
+    gender = Column(String(10), nullable=True)
+    role = Column(Enum(UserRole), default=UserRole.REGULAR, nullable=False)
     azure_id = Column(String(255), unique=True)
     is_active = Column(Boolean, default=True)
     dob = Column(Date, nullable=True)
     phone = Column(String(20), nullable=True)
-    groups = relationship("AlumniGroup", back_populates="president")
     occupation = Column(String(50), nullable=True)
     address = Column(String(255), nullable=True)
     other_names = Column(String(50), nullable=True)
-    group_member_id = Column(String(60), ForeignKey('group_members.id'))
     
-    # member_profile = relationship("GroupMember", backref="users", uselist=False, foreign_keys="[GroupMember.user_id]")
+    # Relationship to AlumniGroup where the user is the president
+    groups_as_president = relationship("AlumniGroup", back_populates="president", foreign_keys="AlumniGroup.president_user_id")
+
+   
+    
+    
     
     def __init__(self, *args, **kwargs):
         """Initialization of the user"""

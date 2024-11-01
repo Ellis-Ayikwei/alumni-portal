@@ -10,8 +10,6 @@ class Beneficiary(BaseModel, Base):
     last_name = Column(String(50), nullable=False)
     date_of_birth = Column(Date)
     relationship_type = Column(String(50))
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     member_id = Column(String(60), ForeignKey('group_members.id'))
     group_members = relationship("GroupMember", back_populates="beneficiaries")

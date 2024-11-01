@@ -43,6 +43,8 @@ def delete_user(user_id):
     """
 
     user = storage.get(User, user_id)
+    users = storage.all(User)
+    users_dicts = [user.to_dict() for user in users.values()]
 
     if not user:
         abort(404)
@@ -50,7 +52,7 @@ def delete_user(user_id):
     storage.delete(user)
     storage.save()
 
-    return make_response(jsonify({}), 200)
+    return make_response(jsonify(users_dicts), 200)
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)

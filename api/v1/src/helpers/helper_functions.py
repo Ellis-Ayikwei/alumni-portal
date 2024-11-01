@@ -39,7 +39,7 @@ def is_username_already_taken(data: dict) -> bool:
     users_data = users_response.get_json()
     
     for user in users_data:
-        if user['username'] == data['username']:
+        if user['username'].casefold()  == data['username'].casefold() :
             return True
     
     return False
@@ -52,7 +52,7 @@ def is_email_already_registered(data: dict) -> bool:
     users_data = users_response.get_json()
     
     for user in users_data:
-        if user['email'] == data['email']:
+        if user['email'].casefold()  == data['email'].casefold() :
             return True
     
     return False
