@@ -11,7 +11,7 @@ def get_all_alumni_groups():
     for group in alumni_groups:
         group_dict = group.to_dict()
         group_dict['members'] = [member.to_dict() for member in group.members]
-        group_dict['contracts'] = [contract.to_dict() for contract in group.contracts]
+        group_dict['contract'] = [contract.to_dict() for contract in group.contract]
         group_dict['insurance_package'] = group.insurance_package.to_dict()
         group_dict['president'] = group.president.to_dict()
         alumni_groups_list.append(group_dict)
@@ -34,24 +34,15 @@ def create_alumni_group():
         abort(400, description="Not a JSON")
 
     data = request.json
-    required_fields = ['name', 'start_date', 'end_date', 'insurance_package']
+    required_fields = ['name', 'start_date', 'end_date', 'president_user_id']
     for field in required_fields:
         if field not in data:
             abort(400, description=f"Missing {field}")
     
     # Create new AlumniGroup object
-    new_group = AlumniGroup(
-        name=data['name'],
-        start_date=data['start_date'],
-        end_date=data['end_date'],
-        insurance_package=data['insurance_package'],
-        president_id=data.get('president_id'),
-        is_locked=data.get('is_locked', False),
-        status=Status[data.get('status', 'ACTIVE')]
-    )
+    new_group = AlumniGroup(**data)
     
-    storage.new(new_group)
-    storage.save()
+    new_group.save()
 
     return jsonify(new_group.to_dict()), 201
 

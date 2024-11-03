@@ -1,3 +1,4 @@
+from http.client import LOCKED
 from sqlalchemy import Column, Index, Integer, String, DateTime, Boolean, ForeignKey, Enum, Date, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -7,8 +8,8 @@ from models.basemodel import BaseModel, Base
 
 class Status(enum.Enum):
     ACTIVE = "ACTIVE"
-    INACTIVE = "INACTIVE"
-    EXPIRED = "EXPIRED"
+    DEACTIVATED = "DEACTIVATED"
+    LOCKED = "LOCKED"
     TERMINATED = "TERMINATED"
     
 class AlumniGroup(BaseModel, Base):
@@ -28,7 +29,7 @@ class AlumniGroup(BaseModel, Base):
     # Relationship to user acting as president
     president = relationship("User", back_populates="groups_as_president", foreign_keys=[president_user_id])
     
-    group_members = relationship("GroupMember", backref="groups")
+    members = relationship("GroupMember", backref="groups")
     contract = relationship("Contract", back_populates="group")
     insurance_package = relationship("InsurancePackage", back_populates="groups")
 
@@ -37,3 +38,14 @@ class AlumniGroup(BaseModel, Base):
         Index('ix_alumni_groups_school', 'school'),
         Index('ix_alumni_groups_status', 'status'),
     )
+    
+    def to_dict(self):
+        dict_data = super().to_dict()
+        
+        if isinstance(self.status, Status):
+            dict_data["status"] = self.status.name
+        else:
+            dict_data["status"] = self.status
+
+        return dict_data
+        

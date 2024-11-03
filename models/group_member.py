@@ -14,22 +14,22 @@ class GroupMember(BaseModel, Base):
     __tablename__ = 'group_members'
 
 
-    
-    added_by = Column(String(60), ForeignKey('users.id'))
-    group_id = Column(String(60), ForeignKey('alumni_groups.id'))
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    added_by = Column(String(60), ForeignKey('users.id'), default="self", nullable=True)
+    group_id = Column(String(60), ForeignKey('alumni_groups.id'), nullable=False)
     status = Column(Enum(Status), default=Status.PENDING, nullable=False)
     is_validated = Column(Boolean, default=False)
     beneficiaries = relationship("Beneficiary", back_populates="group_members")
     
     
     
-    # def to_dict(self):
-    #     dict_data = super().to_dict()
+    def to_dict(self):
+        dict_data = super().to_dict()
         
-    #     if isinstance(self.status, Status):
-    #         dict_data["status"] = self.status.name
-    #     else:
-    #         dict_data["status"] = self.status
+        if isinstance(self.status, Status):
+            dict_data["status"] = self.status.name
+        else:
+            dict_data["status"] = self.status
 
-    #     return dict_data
+        return dict_data
         
