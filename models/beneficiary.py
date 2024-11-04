@@ -8,6 +8,10 @@ class Beneficiary(BaseModel, Base):
 
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
+    email = Column(String(120), nullable=False)
+    phone = Column(String(20))
+    address = Column(String(255))
+    other_names = Column(String(50))
     date_of_birth = Column(Date)
     relationship_type = Column(String(50))
 

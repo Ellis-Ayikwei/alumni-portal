@@ -1,3 +1,4 @@
+from turtle import update
 from click import group
 from flask import Flask, jsonify, request, abort
 from models import storage
@@ -25,7 +26,12 @@ from api.v1.src.views import app_views
 def get_all_group_members():
     """Retrieve all group members"""
     group_members = storage.all(GroupMember).values()
-    members_list = [member.to_dict() for member in group_members]
+    members_list = []
+    for member in group_members:
+        member_dict = member.to_dict()
+        member_dict['user_info'] = member.user_info.to_dict()
+        member_dict['beneficiaries'] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
+        members_list.append(member_dict)
     return jsonify(members_list), 200
 
 
@@ -35,7 +41,10 @@ def get_group_member(member_id):
     member = storage.get(GroupMember, member_id)
     if member is None:
         abort(404, description="Group member not found")
-    return jsonify(member.to_dict()), 200
+    member_dict = member.to_dict()
+    member_dict['user_info'] = member.user_info.to_dict()
+    member_dict['beneficiaries'] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
+    return jsonify(member_dict), 200
 
 
 @app_views.route('/alumni_groups/<group_id>/members', methods=['POST'], strict_slashes=False)
@@ -50,6 +59,16 @@ def create_group_member(group_id):
         if field not in data:
             abort(400, description=f"Missing {field}")
 
+    # Check if the user is already a member of the group
+    all_members = storage.all(GroupMember)
+    existing_member = None
+    for member in all_members.values():
+        if member.user_id == data['user_id'] and member.group_id == group_id:
+            existing_member = member
+    
+    if existing_member is not None:
+        abort(400, description="User is already a member of the group")
+
     # Create new GroupMember object
     new_member = GroupMember(
         **data,
@@ -60,7 +79,6 @@ def create_group_member(group_id):
 
     return jsonify(new_member.to_dict()), 201
 
-
 @app_views.route('/group_members/<member_id>', methods=['PUT'])
 def update_group_member(member_id):
     """Update an existing group member"""
@@ -68,21 +86,20 @@ def update_group_member(member_id):
     if member is None:
         abort(404, description="Group member not found")
 
-    if not request.json:
+    if not request.get_json():
         abort(400, description="Not a JSON")
-
-    data = request.json
-    member.first_name = data.get('first_name', member.first_name)
-    member.last_name = data.get('last_name', member.last_name)
-    member.middle_names = data.get('middle_names', member.middle_names)
-    member.gender = data.get('gender', member.gender)
-    member.cellphone = data.get('cellphone', member.cellphone)
-    member.date_of_birth = data.get('date_of_birth', member.date_of_birth)
-    member.is_validated = data.get('is_validated', member.is_validated)
-    member.added_by = data.get('added_by', member.added_by)
-    member.email = data.get('email', member.email)
-    member.Alumni_group_id = data.get('Alumni_group_id', member.Alumni_group_id)
-
+        
+    
+    updateable_fields = ['status', 'user_info', 'beneficiaries']
+    data = request.get_json()
+    print(data)
+    for key, value in data.items():
+        if key not in updateable_fields:
+            abort(400, description="Not a JSON")
+        setattr(member, key, value)
+    
+    if data["status"] == "APPROVED":
+        member.set_isApproved()
     storage.save()
     return jsonify(member.to_dict()), 200
 

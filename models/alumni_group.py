@@ -22,6 +22,7 @@ class AlumniGroup(BaseModel, Base):
     school = Column(String(100), nullable=False)
     status = Column(Enum(Status), default=Status.ACTIVE, nullable=False)
     package_id = Column(String(60), ForeignKey('insurance_packages.id', ondelete="SET NULL"), nullable=True)
+    description = Column(String(255), nullable=True)
     
     # Foreign key to reference the president user
     president_user_id = Column(String(60), ForeignKey('users.id'))

@@ -24,7 +24,13 @@ def get_alumni_group(group_id):
     alumni_group = storage.get(AlumniGroup, group_id)
     if alumni_group is None:
         abort(404, description="Alumni group not found")
-    return jsonify(alumni_group.to_dict()), 200
+    group_dict = alumni_group.to_dict()
+    group_dict['members'] = [member.to_dict() for member in alumni_group.members]
+    group_dict['contract'] = [contract.to_dict() for contract in alumni_group.contract]
+    group_dict['insurance_package'] = alumni_group.insurance_package.to_dict()
+    group_dict['president'] = alumni_group.president.to_dict()
+    return jsonify(group_dict), 200
+
 
 
 @app_views.route('/alumni_groups', methods=['POST'])
@@ -53,23 +59,24 @@ def update_alumni_group(group_id):
     alumni_group = storage.get(AlumniGroup, group_id)
     if alumni_group is None:
         abort(404, description="Alumni group not found")
-
-    if not request.json:
+    print(request.get_json())
+    if not request.get_json():
         abort(400, description="Not a JSON")
     
-    data = request.json
-    alumni_group.name = data.get('name', alumni_group.name)
-    alumni_group.start_date = data.get('start_date', alumni_group.start_date)
-    alumni_group.end_date = data.get('end_date', alumni_group.end_date)
-    alumni_group.insurance_package = data.get('insurance_package', alumni_group.insurance_package)
-    alumni_group.president_id = data.get('president_id', alumni_group.president_id)
-    alumni_group.is_locked = data.get('is_locked', alumni_group.is_locked)
+    data = request.get_json()
+
+    updateable_fields = ['name', 'start_date', 'end_date', 'president_user_id', 'package_id']
+    for key, value in data.items():
+        if key in updateable_fields:
+            setattr(alumni_group, key, value)
+    
 
     # Update status only if it is in the correct enum format
     if 'status' in data and data['status'] in Status.__members__:
         alumni_group.status = Status[data['status']]
-
+    
     storage.save()
+    
     return jsonify(alumni_group.to_dict()), 200
 
 

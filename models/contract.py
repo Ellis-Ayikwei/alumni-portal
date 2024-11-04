@@ -29,6 +29,7 @@ class Contract(BaseModel, Base):
     group_id = Column(String(60), ForeignKey('alumni_groups.id'))
     expiry_date = Column(Date, nullable=True)
     date_effective = Column(Date, nullable=True)
+    is_signed = Column(Boolean, default=False)
     signed_date = Column(DateTime, default=datetime.now)
     status = Column(Enum(ContractStatus), default=ContractStatus.INACTIVE, nullable=False)
     underwriter_id = Column(String(60), ForeignKey('users.id'))

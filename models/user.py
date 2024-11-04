@@ -6,6 +6,8 @@ import enum
 from models.basemodel import BaseModel, Base
 import bcrypt
 
+from models.group_member import GroupMember
+
 
 class UserRole(enum.Enum):
     SUPER_ADMIN = "SUPER_ADMIN"
@@ -38,7 +40,7 @@ class User(BaseModel, Base):
     
     # Relationship to AlumniGroup where the user is the president
     groups_as_president = relationship("AlumniGroup", back_populates="president", foreign_keys="AlumniGroup.president_user_id")
-
+    group_memberships = relationship("GroupMember", back_populates="user_info", foreign_keys=[GroupMember.user_id])
    
     
     
