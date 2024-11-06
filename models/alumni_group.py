@@ -1,10 +1,14 @@
 from http.client import LOCKED
+from click import group
+from colorama import Fore
 from sqlalchemy import Column, Index, Integer, String, DateTime, Boolean, ForeignKey, Enum, Date, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import enum
+from models import group_member
 from models.basemodel import BaseModel, Base
+from models.group_member import GroupMember
 
 class Status(enum.Enum):
     ACTIVE = "ACTIVE"
@@ -25,12 +29,12 @@ class AlumniGroup(BaseModel, Base):
     description = Column(String(255), nullable=True)
     
     # Foreign key to reference the president user
-    president_user_id = Column(String(60), ForeignKey('users.id'))
+    president_user_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"), nullable=True)
     
     # Relationship to user acting as president
     president = relationship("User", back_populates="groups_as_president", foreign_keys=[president_user_id])
     
-    members = relationship("GroupMember", backref="groups")
+    members = relationship("GroupMember", back_populates="group")
     contract = relationship("Contract", back_populates="group")
     insurance_package = relationship("InsurancePackage", back_populates="groups")
 
@@ -49,4 +53,6 @@ class AlumniGroup(BaseModel, Base):
             dict_data["status"] = self.status
 
         return dict_data
-        
+    
+    
+    

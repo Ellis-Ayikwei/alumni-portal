@@ -1,8 +1,10 @@
+from colorama import Fore
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.alumni_group import AlumniGroup, Status
 
 from api.v1.src.views import app_views
+from models.user import GroupMember
 @app_views.route('/alumni_groups', methods=['GET'])
 def get_all_alumni_groups():
     """Retrieve all alumni groups"""
@@ -10,10 +12,10 @@ def get_all_alumni_groups():
     alumni_groups_list = []
     for group in alumni_groups:
         group_dict = group.to_dict()
-        group_dict['members'] = [member.to_dict() for member in group.members]
-        group_dict['contract'] = [contract.to_dict() for contract in group.contract]
-        group_dict['insurance_package'] = group.insurance_package.to_dict()
-        group_dict['president'] = group.president.to_dict()
+        group_dict['members'] = [member.to_dict() for member in group.members] if group.members else None
+        group_dict['contract'] = [contract.to_dict() for contract in group.contract] if group.contract else None
+        group_dict['insurance_package'] = group.insurance_package.to_dict() if group.insurance_package else None
+        group_dict['president'] = group.president.to_dict() if group.president else None
         alumni_groups_list.append(group_dict)
     return jsonify(alumni_groups_list), 200
 
@@ -25,10 +27,10 @@ def get_alumni_group(group_id):
     if alumni_group is None:
         abort(404, description="Alumni group not found")
     group_dict = alumni_group.to_dict()
-    group_dict['members'] = [member.to_dict() for member in alumni_group.members]
-    group_dict['contract'] = [contract.to_dict() for contract in alumni_group.contract]
-    group_dict['insurance_package'] = alumni_group.insurance_package.to_dict()
-    group_dict['president'] = alumni_group.president.to_dict()
+    group_dict['members'] = [member.to_dict() for member in alumni_group.members] if alumni_group.members else None
+    group_dict['contract'] = [contract.to_dict() for contract in alumni_group.contract] if alumni_group.contract else None
+    group_dict['insurance_package'] = alumni_group.insurance_package.to_dict() if alumni_group.insurance_package else None
+    group_dict['president'] = alumni_group.president.to_dict() if alumni_group.president else None
     return jsonify(group_dict), 200
 
 
@@ -56,28 +58,40 @@ def create_alumni_group():
 @app_views.route('/alumni_groups/<group_id>', methods=['PUT'])
 def update_alumni_group(group_id):
     """Update an existing alumni group"""
-    alumni_group = storage.get(AlumniGroup, group_id)
-    if alumni_group is None:
+    group = storage.get(AlumniGroup, group_id)
+    all_group_members = storage.all(GroupMember).values()
+
+    if group is None:
         abort(404, description="Alumni group not found")
-    print(request.get_json())
+
     if not request.get_json():
         abort(400, description="Not a JSON")
-    
-    data = request.get_json()
 
-    updateable_fields = ['name', 'start_date', 'end_date', 'president_user_id', 'package_id']
-    for key, value in data.items():
+    group_data = request.get_json()
+    print(group_data)
+    group_members  = list(filter(lambda  x: x.group_id == group_id, all_group_members))
+
+    updateable_fields = ['name', 'start_date', 'end_date', 'president_user_id', 'package_id', 'description']
+    for key, value in group_data.items():
         if key in updateable_fields:
-            setattr(alumni_group, key, value)
-    
+            setattr(group, key, value)
+        group.save()
+        
+    if 'is_president' in group_data and group_data['is_president']:
+        grp_membership = storage.get(GroupMember, group_data['id'])
+        for member in group_members:
+            member.is_president = False
+        group.president_user_id = group_data['president_user_id']
+        grp_membership.is_president = True
+        
 
-    # Update status only if it is in the correct enum format
-    if 'status' in data and data['status'] in Status.__members__:
-        alumni_group.status = Status[data['status']]
-    
+    if 'status' in group_data and group_data['status'] in Status.__members__:
+        group.status = Status[group_data['status']]
+
     storage.save()
-    
-    return jsonify(alumni_group.to_dict()), 200
+
+    return jsonify(group.to_dict()), 200
+
 
 
 @app_views.route('/alumni_groups/<group_id>', methods=['DELETE'])

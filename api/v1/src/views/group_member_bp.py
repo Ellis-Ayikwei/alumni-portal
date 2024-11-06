@@ -1,7 +1,8 @@
 from turtle import update
-from click import group
+from colorama import Fore
 from flask import Flask, jsonify, request, abort
 from models import storage
+from models.alumni_group import AlumniGroup
 from models.group_member import GroupMember
 
 from api.v1.src.views import app_views
@@ -30,7 +31,6 @@ def get_all_group_members():
     for member in group_members:
         member_dict = member.to_dict()
         member_dict['user_info'] = member.user_info.to_dict()
-        member_dict['beneficiaries'] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
         members_list.append(member_dict)
     return jsonify(members_list), 200
 
@@ -43,7 +43,6 @@ def get_group_member(member_id):
         abort(404, description="Group member not found")
     member_dict = member.to_dict()
     member_dict['user_info'] = member.user_info.to_dict()
-    member_dict['beneficiaries'] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
     return jsonify(member_dict), 200
 
 
@@ -67,7 +66,7 @@ def create_group_member(group_id):
             existing_member = member
     
     if existing_member is not None:
-        abort(400, description="User is already a member of the group")
+        abort(400, description=f"{existing_member.user_info.username} is already a member of the group")
 
     # Create new GroupMember object
     new_member = GroupMember(
@@ -108,10 +107,16 @@ def update_group_member(member_id):
 def delete_group_member(member_id):
     """Delete a group member"""
     member = storage.get(GroupMember, member_id)
+    group = storage.get(AlumniGroup, member.group_id)
+    print(member.group_id)
     if member is None:
         abort(404, description="Group member not found")
-
+    
+    if member.is_president:
+        member.handle_president_removal()
+    
     storage.delete(member)
     storage.save()
+    print(f"{Fore.BLUE} the user is president{group}")
     return jsonify({}), 200
 

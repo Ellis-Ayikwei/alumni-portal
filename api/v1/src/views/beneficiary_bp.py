@@ -27,20 +27,15 @@ def create_beneficiary():
         abort(400, description="Not a JSON")
     
     data = request.json
-    required_fields = ['first_name', 'last_name']
+    required_fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'other_names', 'date_of_birth', 'relationship_type']
     for field in required_fields:
         if field not in data:
             abort(400, description=f"Missing {field}")
     
     new_beneficiary = Beneficiary(
-        first_name=data['first_name'],
-        last_name=data['last_name'],
-        date_of_birth=data.get('date_of_birth'),
-        relationship_type=data.get('relationship_type'),
-        member_id=data.get('member_id')
+       **data
     )
-    storage.new(new_beneficiary)
-    storage.save()
+    new_beneficiary.save()
 
     return jsonify(new_beneficiary.to_dict()), 201
 

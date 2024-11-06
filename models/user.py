@@ -37,21 +37,25 @@ class User(BaseModel, Base):
     occupation = Column(String(50), nullable=True)
     address = Column(String(255), nullable=True)
     other_names = Column(String(50), nullable=True)
+    beneficiaries = relationship("Beneficiary", back_populates="benefactor_user_info")
+    full_name = Column(String(100), nullable=True)
     
     # Relationship to AlumniGroup where the user is the president
     groups_as_president = relationship("AlumniGroup", back_populates="president", foreign_keys="AlumniGroup.president_user_id")
     group_memberships = relationship("GroupMember", back_populates="user_info", foreign_keys=[GroupMember.user_id])
-   
-    
-    
-    
+
+
     def __init__(self, *args, **kwargs):
         """Initialization of the user"""
         super().__init__(*args, **kwargs)
         if 'password' in kwargs:
             encoded_password = kwargs['password'].encode('utf-8')
             self.password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
-
+        if 'first_name' in kwargs and 'last_name' in kwargs:
+            self.full_name = f"{kwargs['first_name']} {kwargs['last_name']}"
+        
+        
+        
     def verify_password(self, password: str) -> bool:
         return bcrypt.checkpw(password, self.password) if self.password else False
 
