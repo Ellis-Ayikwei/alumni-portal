@@ -14,7 +14,7 @@ class GroupMember(BaseModel, Base):
 
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False, unique=True)
     added_by = Column(String(60), ForeignKey('users.id'), nullable=True)
-    group_id = Column(String(60), ForeignKey('alumni_groups.id'), nullable=False)
+    group_id = Column(String(60), ForeignKey('alumni_groups.id', ondelete="CASCADE"), nullable=False)
     status = Column(Enum(Status), default=Status.PENDING, nullable=False)
     is_approved = Column(Boolean, default=False)
     is_president = Column(Boolean, default=False, nullable=True)

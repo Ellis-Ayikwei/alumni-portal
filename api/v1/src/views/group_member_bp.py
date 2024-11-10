@@ -43,6 +43,7 @@ def get_group_member(member_id):
         abort(404, description="Group member not found")
     member_dict = member.to_dict()
     member_dict['user_info'] = member.user_info.to_dict()
+    member_dict["beneficiaries"] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
     return jsonify(member_dict), 200
 
 

@@ -1,4 +1,5 @@
 # models/beneficiary.py
+from datetime import date
 from sqlalchemy import Column, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from models.basemodel import BaseModel, Base
@@ -17,13 +18,15 @@ class Beneficiary(BaseModel, Base):
 
     # Foreign keys
     benefactor_user_id = Column(String(60), ForeignKey('users.id'))
-    group_member_id = Column(String(60), ForeignKey('group_members.id'))  # Foreign key to GroupMember
+    group_member_id = Column(String(60), ForeignKey('group_members.id'))
 
     # Relationships
     benefactor_user_info = relationship("User", back_populates="beneficiaries")
-    group_members = relationship("GroupMember", back_populates="beneficiaries")  # Link back to GroupMember
+    group_members = relationship("GroupMember", back_populates="beneficiaries")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'first_name' in kwargs and 'last_name' in kwargs:
-            self.full_name = f"{kwargs['first_name']} {kwargs['last_name']}"
+        self.full_name = f"{kwargs.get('first_name')} {kwargs.get('last_name')}"
+
+    
+   

@@ -15,6 +15,7 @@ from models.contract_member import ContractMember
 from models.payment import Payment
 from models.group_member import GroupMember
 from models.alumni_group import AlumniGroup
+from models.amendment import Amendment
 
 from os import getenv
 import sqlalchemy
@@ -23,6 +24,7 @@ from configs.sqlEngineConfig import db_url
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {
+    "Amendment": Amendment,
     "Beneficiary": Beneficiary,
     "Contract": Contract,
     "Payment": Payment,

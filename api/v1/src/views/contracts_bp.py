@@ -1,13 +1,21 @@
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.contract import Contract
+from models.contract import Status as ContractStatus
 
 from api.v1.src.views import app_views
 @app_views.route('/contracts', methods=['GET'])
 def get_all_contracts():
     """Retrieve all contracts"""
     contracts = storage.all(Contract).values()
-    contracts_list = [contract.to_dict() for contract in contracts]
+    contracts_list = []
+    for contract in contracts:
+        contract_dict = contract.to_dict()
+        contract_dict["insurance_package"] = contract.insurance_package.to_dict()
+        contract_dict["underwriter"] = contract.underwriter.to_dict() if contract.underwriter else None
+        contracts_list.append(contract_dict)
+    
+    
     return jsonify(contracts_list), 200
 
 
@@ -39,7 +47,7 @@ def create_contract():
 
     # Create new Contract object
     new_contract = Contract(
-        group_id=data['group_id']
+       **data
     )
     
     storage.new(new_contract)
@@ -55,12 +63,19 @@ def update_contract(contract_id):
     if contract is None:
         abort(404, description="Contract not found")
 
-    if not request.json:
+    if not request.get_json():
         abort(400, description="Not a JSON")
     
-    data = request.json
-    contract.group_id = data.get('group_id', contract.group_id)
-
+    contract_data = request.get_json()
+    updateable_fields = ['group_id', 'expiry_date', 'signed_date', 'status', 'underwriter_id', 'insurance_package_id']
+    for key, value in contract_data.items():
+        if key in updateable_fields:
+            setattr(contract, key, value)
+        contract.save()
+    
+    if 'status' in contract_data and contract_data['status'] in ContractStatus.__members__:
+        contract.status = ContractStatus[contract_data['status']]
+    
     storage.save()
     return jsonify(contract.to_dict()), 200
 

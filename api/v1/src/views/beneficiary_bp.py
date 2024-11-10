@@ -3,6 +3,7 @@ from models import storage
 from models.beneficiary import Beneficiary
 
 from api.v1.src.views import app_views
+from models.user import User
 @app_views.route('/beneficiaries', methods=['GET'])
 def get_all_beneficiaries():
     """Retrieve all beneficiaries"""
@@ -18,6 +19,48 @@ def get_beneficiary(beneficiary_id):
     if beneficiary is None:
         abort(404, description="Beneficiary not found")
     return jsonify(beneficiary.to_dict()), 200
+
+
+# @app_views.route('/users/<user_id>/beneficiaries', methods=['GET'])
+# def get_user_beneficiaries(user_id):
+#     """Retrieve all beneficiaries for a specific user by ID"""
+#     user = storage.get(User, user_id)
+#     if user is None:
+#         abort(404, description="User not found")
+
+#     beneficiaries = user.beneficiaries
+#     beneficiaries_list = [beneficiary.to_dict() for beneficiary in beneficiaries]
+#     return jsonify(beneficiaries_list), 200
+    
+
+
+# @app_views.route('/users/<user_id>/beneficiaries', methods=['GET'])
+# def get_user_beneficiaries(user_id):
+#     """Retrieve all beneficiaries for a specific user by ID"""
+#     user = storage.get(User, user_id)
+#     if user is None:
+#         abort(404, description="User not found")
+
+#     beneficiaries_list = []
+#     for beneficiary in user.beneficiaries:
+#         print(type(beneficiary))
+#         ben_dict = beneficiary.to_dict()
+#         print(type(ben_dict))
+#         ben_dict['user_info'] = user.to_dict()
+#         print("type of user id", type(user))
+#         beneficiaries_list.append(ben_dict)
+
+#     return jsonify(beneficiaries_list), 200
+@app_views.route('/users/<user_id>/beneficiaries', methods=['GET'])
+def get_user_beneficiaries(user_id):
+    """Retrieve all beneficiaries for a specific user by ID"""
+    user = storage.get(User, user_id)
+    if user is None:
+        abort(404, description="User not found")
+
+    beneficiaries_list = [beneficiary.to_dict() for beneficiary in user.beneficiaries]
+    return jsonify(beneficiaries_list), 200
+
 
 
 @app_views.route('/beneficiaries', methods=['POST'])

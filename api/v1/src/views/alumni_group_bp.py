@@ -13,7 +13,7 @@ def get_all_alumni_groups():
     for group in alumni_groups:
         group_dict = group.to_dict()
         group_dict['members'] = [member.to_dict() for member in group.members] if group.members else None
-        group_dict['contract'] = [contract.to_dict() for contract in group.contract] if group.contract else None
+        # group_dict['contracts'] = [contract.to_dict() for contract in group.contracts] if group.contracts else None
         group_dict['insurance_package'] = group.insurance_package.to_dict() if group.insurance_package else None
         group_dict['president'] = group.president.to_dict() if group.president else None
         alumni_groups_list.append(group_dict)
@@ -28,7 +28,7 @@ def get_alumni_group(group_id):
         abort(404, description="Alumni group not found")
     group_dict = alumni_group.to_dict()
     group_dict['members'] = [member.to_dict() for member in alumni_group.members] if alumni_group.members else None
-    group_dict['contract'] = [contract.to_dict() for contract in alumni_group.contract] if alumni_group.contract else None
+    # group_dict['contract'] = [contract.to_dict() for contract in alumni_group.contracts] if alumni_group.contracts else None
     group_dict['insurance_package'] = alumni_group.insurance_package.to_dict() if alumni_group.insurance_package else None
     group_dict['president'] = alumni_group.president.to_dict() if alumni_group.president else None
     return jsonify(group_dict), 200
@@ -42,7 +42,7 @@ def create_alumni_group():
         abort(400, description="Not a JSON")
 
     data = request.json
-    required_fields = ['name', 'start_date', 'end_date', 'president_user_id']
+    required_fields = ['name', 'start_date', 'end_date']
     for field in required_fields:
         if field not in data:
             abort(400, description=f"Missing {field}")
@@ -71,7 +71,7 @@ def update_alumni_group(group_id):
     print(group_data)
     group_members  = list(filter(lambda  x: x.group_id == group_id, all_group_members))
 
-    updateable_fields = ['name', 'start_date', 'end_date', 'president_user_id', 'package_id', 'description']
+    updateable_fields = ['status','name', 'start_date', 'end_date', 'president_user_id', 'package_id', 'description']
     for key, value in group_data.items():
         if key in updateable_fields:
             setattr(group, key, value)
