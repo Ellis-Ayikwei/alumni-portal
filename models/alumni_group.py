@@ -1,6 +1,7 @@
 from http.client import LOCKED
 from click import group
 from colorama import Fore
+from requests import post
 from sqlalchemy import Column, Index, Integer, String, DateTime, Boolean, ForeignKey, Enum, Date, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -27,7 +28,7 @@ class AlumniGroup(BaseModel, Base):
     status = Column(Enum(Status), default=Status.ACTIVATED)
     package_id = Column(String(60), ForeignKey('insurance_packages.id', ondelete="SET NULL"), nullable=True)
     description = Column(String(255), nullable=True)
-    current_contract_id = Column(String(60), ForeignKey('contracts.id', ondelete="SET NULL"), nullable=True)
+    current_contract_id = Column(String(60), ForeignKey('contracts.id', ondelete="SET NULL"), nullable=True, unique=True)
     
     president_user_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"), nullable=True)
     
@@ -36,8 +37,8 @@ class AlumniGroup(BaseModel, Base):
     members = relationship("GroupMember", back_populates="group", cascade="all, delete-orphan")
     
     # Explicit foreign key specification for contracts
-    contracts = relationship("Contract", back_populates="group", foreign_keys=[Contract.group_id])
-    current_contract = relationship("Contract", foreign_keys=[current_contract_id])
+    contracts = relationship("Contract", primaryjoin="AlumniGroup.id == Contract.group_id", back_populates="group")
+    current_contract = relationship("Contract", primaryjoin="AlumniGroup.current_contract_id == Contract.id", post_update=True)
     
     insurance_package = relationship("InsurancePackage", back_populates="groups")
 
@@ -58,5 +59,6 @@ class AlumniGroup(BaseModel, Base):
         # Contracts list simplified, including only basic info
         dict_data["contracts"] = [{"id": contract.id, "name": contract.name} for contract in self.contracts]
         dict_data["current_contract"] = {"id": self.current_contract.id, "name": self.current_contract.name} if self.current_contract else None
-
+        dict_data["members"] = [member.to_dict() for member in self.members] if self.members else None
+        
         return dict_data

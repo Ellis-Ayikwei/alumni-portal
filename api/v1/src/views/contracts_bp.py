@@ -26,11 +26,7 @@ def get_contract_by_id(contract_id):
     if contract is None:
         abort(404, description="Contract not found")
 
-    contract_dict = contract.to_dict()
-    contract_member_dicts = [member.to_dict() for member in contract.contract_members]
-    contract_dict['contract_members'] = contract_member_dicts
-
-    return jsonify(contract_dict), 200
+    return jsonify(contract.to_dict()), 200
 
 
 @app_views.route('/contracts', methods=['POST'])
@@ -60,6 +56,7 @@ def create_contract():
 def update_contract(contract_id):
     """Update an existing contract"""
     contract = storage.get(Contract, contract_id)
+
     if contract is None:
         abort(404, description="Contract not found")
 
@@ -67,16 +64,20 @@ def update_contract(contract_id):
         abort(400, description="Not a JSON")
     
     contract_data = request.get_json()
+
     updateable_fields = ['group_id', 'expiry_date', 'signed_date', 'status', 'underwriter_id', 'insurance_package_id']
     for key, value in contract_data.items():
         if key in updateable_fields:
             setattr(contract, key, value)
         contract.save()
-    
+
     if 'status' in contract_data and contract_data['status'] in ContractStatus.__members__:
-        contract.status = ContractStatus[contract_data['status']]
-    
+        contract.status = contract_data['status']
+        if contract.status == "LOCKED":
+            contract.lock_contract()
+
     storage.save()
+
     return jsonify(contract.to_dict()), 200
 
 

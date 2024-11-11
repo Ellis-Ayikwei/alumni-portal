@@ -31,7 +31,7 @@ class GroupMember(BaseModel, Base):
         return dict_data
 
     def set_isApproved(self):
-        self.is_validated = True
+        self.is_approved = True
 
     def handle_president_removal(self):
         if self.is_president:

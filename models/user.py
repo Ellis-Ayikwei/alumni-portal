@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import enum
+from models.amendment import Amendment
 from models.basemodel import BaseModel, Base
 import bcrypt
 
@@ -44,7 +45,7 @@ class User(BaseModel, Base):
     beneficiaries = relationship("Beneficiary", back_populates="benefactor_user_info")
     groups_as_president = relationship("AlumniGroup", back_populates="president", foreign_keys="AlumniGroup.president_user_id")
     group_memberships = relationship("GroupMember", back_populates="user_info", foreign_keys=[GroupMember.user_id])
-
+    amendments = relationship("Amendment", foreign_keys=[Amendment.amender_user_id], back_populates="amended_by")
 
     def __init__(self, *args, **kwargs):
         """Initialization of the user"""
@@ -66,14 +67,14 @@ class User(BaseModel, Base):
 
 
 
-    def to_dict(self):
+    def to_dict(self, save_fs=None) -> dict:
         """Return a dictionary representation of the user, ensuring enum conversion"""
-        dict_rep = super().to_dict()
+        user_dict = super().to_dict()
         
         # Convert the role enum to its string representation for serialization
-        if isinstance(self.role, UserRole):
-            dict_rep["role"] = self.role.name
-        else:
-            dict_rep["role"] = self.role
+        user_dict["role"] = self.role.name if isinstance(self.role, UserRole) else self.role
         
-        return dict_rep
+        full_name = self.full_name if self.full_name else f"{self.first_name} {self.last_name}"
+        user_dict["full_name"] = full_name
+        
+        return user_dict

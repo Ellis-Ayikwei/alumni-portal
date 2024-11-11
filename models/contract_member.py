@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import enum
+from models import user
 from models.basemodel import BaseModel, Base
 
 
@@ -11,10 +12,17 @@ class ContractMember(BaseModel, Base):
     __tablename__ = 'contract_members'
 
     
-    is_amended = Column(Boolean, default=False)
-    
     contract_id = Column(String(60), ForeignKey('contracts.id'))
-    contract = relationship("Contract", back_populates="contract_members")
-    user_id = Column(String(60), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
     group_member_id = Column(String(60), ForeignKey('group_members.id'))
+    
+    user = relationship("User") 
+    contract = relationship("Contract", back_populates="contract_members")
     group_member = relationship("GroupMember", backref="contract_member")
+    
+    
+    def to_dict(self, save_fs=None):
+        dict_data = super().to_dict(save_fs)
+        dict_data["user"] = self.user.to_dict() if self.user else None
+        dict_data["group_member"] = self.group_member.to_dict() if self.group_member else None
+        return dict_data
