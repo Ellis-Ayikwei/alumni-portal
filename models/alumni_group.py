@@ -29,7 +29,7 @@ class AlumniGroup(BaseModel, Base):
     package_id = Column(String(60), ForeignKey('insurance_packages.id', ondelete="SET NULL"), nullable=True)
     description = Column(String(255), nullable=True)
     current_contract_id = Column(String(60), ForeignKey('contracts.id', ondelete="SET NULL"), nullable=True, unique=True)
-    
+    is_one_time_payment_paid = Column(Boolean, default=False, nullable=False)
     president_user_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"), nullable=True)
     
     president = relationship("User", back_populates="groups_as_president", foreign_keys=[president_user_id])

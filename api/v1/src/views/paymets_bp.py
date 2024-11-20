@@ -1,8 +1,17 @@
+from click import FLOAT
 from flask import Flask, jsonify, request, abort
 from models import storage  # Assuming this is your data layer abstraction
 from models.payment import PaymentStatus, Payment
 
 from api.v1.src.views import app_views
+@app_views.route('/payments/users_payments/<user_id>', methods=['GET'])
+def get_users_payments(user_id):
+    """Retrieve all payments made by a user"""
+    payments = storage.all(Payment).values()
+    users_payments = [payment.to_dict() for payment in payments if payment.payer_id == user_id]
+    return jsonify(users_payments), 200
+
+
 @app_views.route('/payments', methods=['GET'])
 def get_all_payments():
     """Retrieve all payments"""
@@ -27,24 +36,27 @@ def create_payment():
         abort(400, description="Not a JSON")
 
     data = request.json
-    required_fields = ['amount', 'payment_date', 'contract_id', 'payer_id']
+    required_fields = ['amount', 'payment_date', 'payer_id']
     for field in required_fields:
         if field not in data:
             abort(400, description=f"Missing {field}")
 
     # Create new Payment object
+    print(float(data["amount"]))
+    
     new_payment = Payment(
-        amount=data['amount'],
+        amount=float(data["amount"]),
         payment_date=data['payment_date'],
         status=data.get('status', PaymentStatus.PENDING),
-        contract_id=data['contract_id'],
-        payer_id=data['payer_id']
+        payer_id=data['payer_id'],
+        group_id=data["group_id"],
+        payment_method_id=data["payment_method_id"]
     )
     
-    storage.new(new_payment)
-    storage.save()
+    new_payment.save()
 
-    return jsonify(new_payment.to_dict()), 201
+    # return jsonify(new_payment.to_dict()), 201
+    return jsonify({}), 201
 
 
 @app_views.route('/payments/<payment_id>', methods=['PUT'])
@@ -57,14 +69,14 @@ def update_payment(payment_id):
     if not request.json:
         abort(400, description="Not a JSON")
     
+    
+    ignore = ['id', 'created_at', 'updated_at', '__class__', 'payment_method', 'group', 'payer']
     data = request.json
-    payment.amount = data.get('amount', payment.amount)
-    payment.payment_date = data.get('payment_date', payment.payment_date)
-    payment.status = data.get('status', payment.status)
-    payment.contract_id = data.get('contract_id', payment.contract_id)
-    payment.payer_id = data.get('payer_id', payment.payer_id)
-
+    for key,value in data.items():
+        if key not in ignore:
+            setattr(payment, key, value)
     storage.save()
+    
     return jsonify(payment.to_dict()), 200
 
 

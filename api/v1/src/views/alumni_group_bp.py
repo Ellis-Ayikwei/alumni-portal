@@ -1,10 +1,62 @@
+import json
+from click import group
 from colorama import Fore
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.alumni_group import AlumniGroup, Status
 
 from api.v1.src.views import app_views
-from models.user import GroupMember
+from models.invite import Invite
+from models.user import GroupMember, User
+
+
+@app_views.route('/alumni_groups/<group_id>/invite_code', methods=['POST'], strict_slashes=False)
+def get_group_invite(group_id):
+    """Retrieve an invite code for a user to join a specific group"""
+    print("hit the api")
+    
+    print(request.json)
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    
+    
+    print('it is a json')
+    
+    data = request.get_json()
+    user_id = data.get('user_id')
+    user = storage.get(User, user_id)
+    if user is None:
+        abort(404, description="User not found")
+   
+
+    invite = Invite(
+        group_id=group_id,
+        creator_id=user_id,
+    )
+    generated_invite = invite.generate_code()
+    
+    return jsonify(generated_invite.to_dict()), 200
+
+
+@app_views.route('/alumni_groups/my_groups/<user_id>', methods=['GET'])
+def get_user_alumni_groups(user_id):
+    """Retrieve all alumni groups a user is a part of"""
+    user = storage.get(User, user_id)
+    if user is None:
+        abort(404, description="User not found")
+
+    memberships = [{"group_id": membership.group_id} for membership in user.group_memberships]
+    memberships_list = []
+    for membership in memberships:
+        group = storage.get(AlumniGroup, membership["group_id"])
+        group_dict = group.to_dict()
+        group_dict['members'] = [member.to_dict() for member in group.members]
+        if group.president:
+            group_dict['president'] = {key: value for key, value in group.president.to_dict().items() if key not in ['groups_as_president', 'group_memberships']}
+        memberships_list.append(group_dict)
+    return jsonify(memberships_list), 200
+
+
 @app_views.route('/alumni_groups', methods=['GET'])
 def get_all_alumni_groups():
     """Retrieve all alumni groups"""

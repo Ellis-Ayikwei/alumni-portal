@@ -88,25 +88,19 @@ def post_user():
     return make_response(jsonify(new_user.to_dict()), 201)
 
 
-@app_views.route('/users', methods=['PUT'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 #@swag_from('documentation/user/put_user.yml', methods=['PUT'])
-def put_user():
+def update_user(user_id: str) -> tuple:
     """
     Updates a User
     """
-    from api.v1.src.helpers.helper_functions import get_user_id_from_all_user
-
+    print("api hit") 
     data = request.get_json()
-    
-
- 
-
     if not data:
         abort(400, description="Not a JSON")
-        
-    user_id=get_user_id_from_all_user(username=data.get('username'), email=data.get('email'))
+
+    # new_user_id = get_user_id_from_all_user(username=data.get('username'), email=data.get('email'))
     user = storage.get(User, user_id)
-    print(data.get('username'))
     if not user:
         abort(404)
 
@@ -115,5 +109,79 @@ def put_user():
     for key, value in data.items():
         if key not in ignore:
             setattr(user, key, value)
+
     storage.save()
     return make_response(jsonify(user.to_dict()), 200)
+
+
+@app_views.route('/users/reset_password/<user_id>', methods=['PUT'], strict_slashes=False)
+def reset_user_password(user_id: str) -> tuple:
+    """Resets a user's password"""
+    user = storage.get(User, user_id)
+    if not user:
+        abort(404)
+
+    data = request.get_json()
+    if not data:
+        abort(400, description="Not a JSON")
+
+    current_password = data.get('currentPassword')
+    new_password = data.get('newPassword')
+
+    if not current_password or not new_password:
+        abort(400, description="Missing current password or new password")
+    
+
+    if not user.verify_password(current_password):
+        abort(403, description="Invalid current_password")
+
+    if current_password == new_password:
+        abort(400, description="new password cannot be the same as the old password")
+    
+    user.reset_password(current_password,new_password)
+    user.save()
+
+    return make_response(jsonify(user.to_dict()), 200)
+
+
+
+@app_views.route('/users/my_profile/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user_profile(user_id: str) -> tuple:
+    """
+    Retrieves a user's profile information
+    """
+    user_instance = storage.get(User, user_id)
+    if user_instance is None:
+        abort(404)
+
+    return make_response(jsonify(user_instance.to_dict()), 200)
+
+
+@app_views.route('/users/user_profile_completion/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user_profile_completion(user_id: str) -> tuple:
+    """Calculate the completion percentage of a user's profile."""
+    user_instance = storage.get(User, user_id)
+    if user_instance is None:
+        abort(404)
+
+    required_fields = [
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "middle_names",
+        "gender",
+        "dob",
+        "occupation",
+        "address",
+        "other_names",
+    ]
+
+    completed_fields = [
+        field for field in required_fields if getattr(user_instance, field)
+    ]
+
+    completion_percentage = int((len(completed_fields) / len(required_fields)) * 100)
+
+    return jsonify({"completion_percentage": completion_percentage})
+

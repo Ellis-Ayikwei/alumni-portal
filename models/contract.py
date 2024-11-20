@@ -37,7 +37,7 @@ class Contract(BaseModel, Base):
     is_signed = Column(Boolean, default=False)
     signed_date = Column(Date, nullable=True)
     status = Column(Enum(Status), default=Status.INACTIVE, nullable=False)
-    underwriter_id = Column(String(60), ForeignKey('users.id'))
+    underwriter_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"), nullable=True)
     insurance_package_id = Column(String(60), ForeignKey('insurance_packages.id', ondelete="SET NULL"), nullable=True)
     description = Column(String(255), nullable=True)
     policy_number = Column(String(100), nullable=True)

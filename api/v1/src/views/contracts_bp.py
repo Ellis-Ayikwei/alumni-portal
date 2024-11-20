@@ -1,9 +1,39 @@
-from flask import Flask, jsonify, request, abort
-from models import storage
+from flask import Flask, json, jsonify, request, abort
+from models import storage, user
 from models.contract import Contract
 from models.contract import Status as ContractStatus
 
 from api.v1.src.views import app_views
+from models.contract_member import ContractMember
+@app_views.route('/contracts/my_contracts/<string:user_id>', methods=['GET'])
+def get_contracts_for_user(user_id: str) -> tuple[list[dict], int]:
+    """Retrieve all contracts for a user
+
+    Args:
+        user_id (str): The ID of the user
+
+    Returns:
+        tuple[list[dict], int]: A list of contracts and a status code
+    """
+    all_contract_members = storage.all(ContractMember).values()
+    user_contracts_memberships: list[ContractMember] = [contract_member for contract_member in all_contract_members if contract_member.user_id == user_id]
+
+    user_contracts: list[dict] = [c.contract for c in user_contracts_memberships]
+    contracts_list: list[dict] = []
+    for contract in user_contracts:
+        print(contract.name)
+        contracts_list.append({
+            "name": contract.name,
+            "id": contract.id,
+            "group": contract.group.name,
+            "signed_date": contract.signed_date,
+            "underwriter": contract.underwriter.full_name if contract.underwriter else None,
+        })
+
+    return jsonify(contracts_list), 200
+
+
+
 @app_views.route('/contracts', methods=['GET'])
 def get_all_contracts():
     """Retrieve all contracts"""
@@ -15,7 +45,8 @@ def get_all_contracts():
         contract_dict["underwriter"] = contract.underwriter.to_dict() if contract.underwriter else None
         contracts_list.append(contract_dict)
     
-    
+    # print("--c-c-c--c-c-"*10)
+    # print(json.dumps(contracts_list[0], indent=4))
     return jsonify(contracts_list), 200
 
 
@@ -36,15 +67,20 @@ def create_contract():
         abort(400, description="Not a JSON")
 
     data = request.json
-    required_fields = ['group_id']
+    print(data)
+    required_fields = ['group_id', 'expiry_date', 'signed_date', 'status', 'underwriter_id', 'insurance_package_id']
     for field in required_fields:
         if field not in data:
+            # if field == "underwriter_id":
+            #     underwriter_data[field]
             abort(400, description=f"Missing {field}")
 
     # Create new Contract object
     new_contract = Contract(
        **data
     )
+    
+    
     
     storage.new(new_contract)
     storage.save()

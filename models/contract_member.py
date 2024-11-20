@@ -14,7 +14,7 @@ class ContractMember(BaseModel, Base):
     
     contract_id = Column(String(60), ForeignKey('contracts.id'))
     user_id = Column(String(60), ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
-    group_member_id = Column(String(60), ForeignKey('group_members.id'))
+    group_member_id = Column(String(60), ForeignKey('group_members.id', ondelete="CASCADE") )
     
     user = relationship("User") 
     contract = relationship("Contract", back_populates="contract_members")

@@ -1,13 +1,15 @@
-from flask import Blueprint, abort, flash, redirect, request, url_for
-from api.v1.src.views.Authentication.user_validation import validate_user_data
-from models.user import User
-from api.v1.src.views import app_views
-from api.v1.src.helpers.helper_functions import is_username_already_taken
+from flask import Blueprint, abort, flash, jsonify, redirect, request, url_for
 
-@app_views.route("/register", methods=["GET", "POST"], strict_slashes=False)
+from api.v1.src.helpers.helper_functions import is_email_already_registered, is_username_already_taken
+from .user_validation import validate_user_data
+from models.user import User
+from api.v1.src.views import app_auth
+
+@app_auth.route("/register", methods=["POST"], strict_slashes=False)
 def register():
     """Register a new user"""
-    form_data = request.form
+    form_data = request.get_json()
+    print(form_data, flush=True)
     if not form_data:
         abort(400, description="Not a JSON")
 
@@ -19,8 +21,11 @@ def register():
     if is_username_already_taken(validated_data['username']):
         abort(400, description="Sorry, username already taken. Please choose another one.")
 
+    if is_email_already_registered(validated_data['email']):
+        abort(400, description="Sorry, email already registered. Please log in.")
+        
     new_user = User(**validated_data)
     new_user.save()
 
     flash("You have registered successfully. Please log in.", "success")
-    return redirect(url_for("login"))  # Redirect to the login page
+    return jsonify(new_user.to_dict()), 201

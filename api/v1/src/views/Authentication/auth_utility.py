@@ -5,10 +5,9 @@ import datetime
 from functools import wraps
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_wtf.csrf import CSRFProtect, generate_csrf
 import logging
 
-from api.v1.src.views import app_auth
+from api.v1.views import app_auth
 from models import storage
 
 from models.user import User

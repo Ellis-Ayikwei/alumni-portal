@@ -1,4 +1,5 @@
 import datetime
+from datetime import datetime as dt
 from os import name
 from sqlalchemy import Column, DateTime, ForeignKey, Index, Null, String, JSON, Enum
 from models.basemodel import Base, BaseModel
@@ -20,12 +21,12 @@ class Amendment(BaseModel, Base):
 
     name = Column(String(60), nullable=False)
     contract_id = Column(String(60), ForeignKey('contracts.id'))
-    amender_user_id = Column(String(60), ForeignKey('users.id'))
+    amender_user_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"))
     change_date = Column(DateTime, default=datetime.datetime.utcnow)
     new_values = Column(JSON)
     old_values = Column(JSON)
     status = Column(Enum(AmendmentStatus), default=AmendmentStatus.PENDING, nullable=False)
-    approver_id = Column(String(60), ForeignKey('users.id'), nullable=True)
+    approver_id = Column(String(60), ForeignKey('users.id', ondelete="SET NULL"), nullable=True)
     approval_date = Column(DateTime, nullable=True)
     
     contract = relationship("Contract", back_populates="amendments", foreign_keys=[contract_id])
@@ -63,13 +64,23 @@ class Amendment(BaseModel, Base):
             "expiry_date",
             "is_signed",
             "signed_date",
+            "date_effective",
             "status",
             "insurance_package_id",
             "policy_number",
         ]
+        
+        dates=[
+            "expiry_date",
+            "signed_date",
+            "date_effective"
+        ]
 
         for field, value in self.new_values.items():
             if field in allowed_fields and value is not None:
+                if field in dates:
+                    if not is_valid_date(value):
+                        value=dt.strptime(value, "%a, %d %b %Y %H:%M:%S %Z").date()
                 setattr(contract, field, value)
 
         contract.save()
@@ -81,3 +92,14 @@ class Amendment(BaseModel, Base):
         self.approval_date = datetime.datetime.utcnow()
         contract = self.contract
         contract.save()
+
+
+
+
+def is_valid_date(date_str, format="%Y-%m-%d"):
+    try:
+        # Attempt to parse the date string with the specified format
+        dt.strptime(date_str, format)
+        return True  # If parsing succeeds, it's a valid date in "YYYY-MM-DD" format
+    except ValueError:
+        return False 

@@ -9,6 +9,8 @@ from models.beneficiary import Beneficiary
 from models.benefit import Benefit
 from models.claim import Claim
 from models.insurance_package import InsurancePackage
+from models.invite import Invite
+from models.payment_method import PaymentMethod
 from models.user import User
 from models.contract import Contract
 from models.contract_member import ContractMember
@@ -33,8 +35,10 @@ classes = {
     "User": User,
     "Contract_member": ContractMember,
     "GroupMember": GroupMember,
+    "PaymentMethod": PaymentMethod,
     "Alumni_group": AlumniGroup,
     "Claim": Claim,
+    "Invite": Invite,
 }
 
 

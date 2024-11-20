@@ -57,15 +57,6 @@ class User(BaseModel, Base):
             self.full_name = f"{kwargs['first_name']} {kwargs['last_name']} {kwargs['other_names']}"
         
         
-        
-    def verify_password(self, password: str) -> bool:
-        return bcrypt.checkpw(password, self.password) if self.password else False
-
-
-    def update_password(self, new_password: str):
-        self.password = bcrypt.hashpw(new_password, bcrypt.gensalt())
-
-
 
     def to_dict(self, save_fs=None) -> dict:
         """Return a dictionary representation of the user, ensuring enum conversion"""
@@ -78,3 +69,36 @@ class User(BaseModel, Base):
         user_dict["full_name"] = full_name
         
         return user_dict
+
+    @staticmethod
+    def validate_password_strength(password: str) -> bool:
+        """Ensure the password meets basic complexity requirements."""
+        import re
+        return bool(re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$', password))
+
+    
+    def verify_password(self, password: str) -> bool:
+        """Verify the password against the hashed password."""
+        try:
+            
+            print((password.encode('utf-8'), self.password))
+            return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8')) if self.password else False
+        except (ValueError, TypeError):
+            return False
+
+    def update_password(self, new_password: str):
+        """Update the password with a new hash."""
+        # if not self.validate_password_strength(new_password):
+        #     raise ValueError("Password does not meet complexity requirements.")
+        self.password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+    def reset_password(self, current_password: str, new_password: str) -> bool:
+            """Reset the password if the current password is verified."""
+            if self.verify_password(current_password):
+                self.update_password(new_password)
+                # Log password reset success (replace with a proper logging system)
+                print(f"Password reset successfully for user.")
+                return True
+            # Log failed reset attempt (replace with a proper logging system)
+            print(f"Failed password reset attempt for user.")
+            return False

@@ -7,40 +7,43 @@ schema = {
     'first_name': {'type': 'string', 'regex': r'^[a-zA-Z]+$'},
     'last_name': {'type': 'string', 'regex': r'^[a-zA-Z]+$'},
     'phone_number': {'type': 'string', 'regex': r'^\d{10}$'},
-    'address': {'type': 'string', 'minlength': 5},
+    'address': {'type': 'string', 'minlength': 5, "empty": True},
     'city': {'type': 'string'},
     'state': {'type': 'string'},
     'zip_code': {'type': 'string', 'regex': r'^\d{5}(?:[-\s]\d{4})?$'},
     'country': {'type': 'string'},
     'username': {'type': 'string', 'minlength': 4, 'maxlength': 20},
-    'role': {'type': 'string', 'allowed': ["regular", "admin", "superadmin"]},
+    # 'role': {'type': 'string', 'allowed': ["regular", "admin", "superadmin"]},
     'password': {'type': 'string', 'minlength': 8}
 }
 
 def validate_user_data(data: dict) -> dict:
     """
-    Validates a user's data against the schema defined above.
+    Validates user data against the predefined schema.
 
     Args:
-        data (dict): The user's data to be validated
+        data (dict): The user data to be validated
 
     Returns:
-        dict: The validated user's data
+        dict: The validated user data
 
     Raises:
         ValueError: If the data does not validate against the schema
     """
     v = Validator(schema)
-    # Strip any whitespace from string values
+    v.allow_unknown = True
+
+    # Remove leading and trailing whitespace from string values
     for key, value in data.items():
         if isinstance(value, str):
             data[key] = value.strip()
 
     if v.validate(data):
         return data
-    else:
-        # Raise an error with the validation errors
-        raise ValueError(f"Validation errors: {v.errors}")
+
+    # Raise a ValueError with the validation errors
+    validation_errors = ', '.join(f'{key}: {"Not Valid"}' for key, error in v.errors.items())
+    raise ValueError(validation_errors)
 
 # # Example usage
 # data = {

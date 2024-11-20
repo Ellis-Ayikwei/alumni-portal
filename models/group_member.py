@@ -12,8 +12,8 @@ class Status(enum.Enum):
 class GroupMember(BaseModel, Base):
     __tablename__ = 'group_members'
 
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False, unique=True)
-    added_by = Column(String(60), ForeignKey('users.id'), nullable=True)
+    user_id = Column(String(60), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
+    added_by = Column(String(60), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
     group_id = Column(String(60), ForeignKey('alumni_groups.id', ondelete="CASCADE"), nullable=False)
     status = Column(Enum(Status), default=Status.PENDING, nullable=False)
     is_approved = Column(Boolean, default=False)
@@ -25,7 +25,7 @@ class GroupMember(BaseModel, Base):
     group = relationship("AlumniGroup", back_populates="members", foreign_keys=[group_id])
     beneficiaries = relationship("Beneficiary", back_populates="group_members")
 
-    def to_dict(self):
+    def to_dict(self, save_fs=None):
         dict_data = super().to_dict()
         dict_data["status"] = self.status.name if isinstance(self.status, Status) else self.status
         return dict_data

@@ -42,3 +42,4 @@ flask-wtf
 Flask-Session
 redis
 alembic
+flask_mail
