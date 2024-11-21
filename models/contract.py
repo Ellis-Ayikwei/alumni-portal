@@ -31,6 +31,7 @@ class Contract(BaseModel, Base):
     """
     __tablename__ = 'contracts'
     name = Column(String(100), nullable=False)
+    group_id = Column(String(60), ForeignKey('alumni_groups.id'), nullable=True)
     group_id = Column(String(60), ForeignKey('alumni_groups.id'))
     expiry_date = Column(Date, nullable=True)
     date_effective = Column(Date, nullable=True)
@@ -50,6 +51,13 @@ class Contract(BaseModel, Base):
     amendments = relationship("Amendment", back_populates="contract")
     insurance_package = relationship("InsurancePackage", backref="contracts")
 
+    # Relationships
+    payments = relationship("Payment", back_populates="contract")
+    group = relationship("AlumniGroup", back_populates="contracts", foreign_keys=[group_id])
+    contract_members = relationship("ContractMember", back_populates="contract", cascade="all, delete-orphan")
+    underwriter = relationship("User", backref="contracts")
+    amendments = relationship("Amendment", back_populates="contract")
+    insurance_package = relationship("InsurancePackage", backref="contracts")
     def to_dict(self, save_fs=None):
         dict_data = super().to_dict()
         dict_data["status"] = self.status.name if isinstance(self.status, Status) else self.status
@@ -92,3 +100,4 @@ class Contract(BaseModel, Base):
             self.status = "LOCKED"
     def __repr__(self):
         return json.dumps(self.to_dict(), default=lambda o: o.__dict__, indent=4)
+

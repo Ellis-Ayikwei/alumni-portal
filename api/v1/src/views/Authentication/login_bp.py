@@ -8,6 +8,7 @@ from flask_jwt_extended import jwt_required
 import datetime
 from flask_limiter import Limiter
 from api.v1.src.helpers.helper_functions import get_user_id_from_all_user
+from api.v1.src.services.auditslogging.logginFn import log_audit
 from api.v1.src.views import app_auth
 from models import storage
 from models.user import User
@@ -35,6 +36,8 @@ def login():
     user = storage.get(User, user_id)
 
     if user and user.verify_password(data['password']):
+        if not user.is_active:
+            abort(401, description="Your Account Is inActive kindly Ask the president to activate it ")
         access_token = create_access_token(identity=user.username, expires_delta=ACCESS_EXPIRES)
         refresh_token = create_refresh_token(identity=user.username)
 
@@ -42,7 +45,9 @@ def login():
         response.headers['Authorization'] = 'Bearer ' + access_token
         response.headers['X-Refresh-Token'] = refresh_token
         print("response headers", response.headers)
+        log_audit(user_id, "logged in", status="PENDING", details=None, item_audited=None)
         return response, 200
+    log_audit(user_id, "failed logged in", status="FAILED", details=None, item_audited=None)
 
     return jsonify({'message': 'Invalid credentials'}), 401
 

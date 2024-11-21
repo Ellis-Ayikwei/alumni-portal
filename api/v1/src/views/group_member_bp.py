@@ -81,7 +81,6 @@ def create_group_member(group_id):
     Returns a JSON response with the newly created GroupMember object's
     dictionary representation, with a 201 status code.
     """
-    print("cgm hit")
     print(request.json)
     if not request.json:
         abort(400, description="Not a JSON")
@@ -103,6 +102,7 @@ def create_group_member(group_id):
 
     if 'action' in data and data['action'] == 'join':
         # Check if the invite code is valid
+        print(data)
         invite = storage.get(Invite, data['invite_id'])
         if invite is None:
             abort(400, description="Invalid Invite code")

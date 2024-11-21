@@ -1,0 +1,64 @@
+2024-11-21 15:27:30,878 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: (None, 'DELETE', datetime.datetime(2024, 11, 21, 15, 27, 30, 878171), 'SUCCESS', None, 'a35d857f-7c31-4f52-ad86-0300783084d9', datetime.datetime(2024, 11, 21, 15, 27, 30, 878171))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 15:30:07,730 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.DataError) (1265, "Data truncated for column 'status' at row 1")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('d1ec5065-a17b-4518-a91d-391fc74f2fee', 'POST', datetime.datetime(2024, 11, 21, 15, 30, 7, 727533), 'SUCCESS', 'd1ec5065-a17b-4518-a91d-391fc74f2fee', '56be908b-cdd1-43e6-b272-2088efb2d27a', datetime.datetime(2024, 11, 21, 15, 30, 7, 727533))]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2024-11-21 15:32:38,546 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: (None, 'DELETE', datetime.datetime(2024, 11, 21, 15, 32, 38, 515043), 'COMPLETED', None, '3fa48a16-197e-4440-bbdc-5e376d007ef2', datetime.datetime(2024, 11, 21, 15, 32, 38, 515043))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 15:34:35,088 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`alumni_portal_v1`.`audit_trails`, CONSTRAINT `audit_trails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))')
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('50e628c7-c39a-467b-86a2-80cd9a262997', 'POST', datetime.datetime(2024, 11, 21, 15, 34, 35, 72819), 'COMPLETED', '50e628c7-c39a-467b-86a2-80cd9a262997', 'addffb05-9d2e-4858-851d-0d725653ec15', datetime.datetime(2024, 11, 21, 15, 34, 35, 72819))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-11-21 15:37:08,449 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: (None, 'POST', datetime.datetime(2024, 11, 21, 15, 37, 8, 441602), 'FAILED', None, '792c4398-c140-44a9-b0ff-84cebdd74e69', datetime.datetime(2024, 11, 21, 15, 37, 8, 441602))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 15:51:51,446 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 15, 51, 51, 430682), 'FAILED', None, 'b3d31ade-951a-46a5-a334-0980bc1b32ca', datetime.datetime(2024, 11, 21, 15, 51, 51, 430682))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 15:53:32,781 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 15, 53, 32, 765688), 'FAILED', None, 'f7eb1aec-058d-4e92-8f84-6ab10cd776c0', datetime.datetime(2024, 11, 21, 15, 53, 32, 765688))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 15:53:38,744 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 15, 53, 38, 742370), 'FAILED', None, '50e445f0-2b81-4d11-894e-f8fe7c0622dd', datetime.datetime(2024, 11, 21, 15, 53, 38, 742370))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:03:23,344 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 16, 3, 23, 280457), 'FAILED', None, '3530b0d3-a91f-44f0-bd21-cbd060e9f110', datetime.datetime(2024, 11, 21, 16, 3, 23, 282970))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:03:30,750 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 16, 3, 30, 744152), 'FAILED', None, '46cc3d97-e8e5-47eb-ad0f-fe3efc7b5ac2', datetime.datetime(2024, 11, 21, 16, 3, 30, 744152))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:03:40,346 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 16, 3, 40, 344918), 'FAILED', None, 'a5d92c30-7343-4769-9d38-55d46c83348d', datetime.datetime(2024, 11, 21, 16, 3, 40, 344918))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:03:55,059 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 16, 3, 55, 55364), 'FAILED', None, '7358b8ea-6455-41ca-a278-e27153fe99e1', datetime.datetime(2024, 11, 21, 16, 3, 55, 55364))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:08:47,680 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'POST', datetime.datetime(2024, 11, 21, 16, 8, 47, 672168), 'FAILED', None, '21d70241-edac-4be1-be48-91e254746af1', datetime.datetime(2024, 11, 21, 16, 8, 47, 672168))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:09:00,843 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'logged in', datetime.datetime(2024, 11, 21, 16, 9, 0, 839071), 'PENDING', None, 'b7eb5980-b668-494c-828e-d1898fc589a0', datetime.datetime(2024, 11, 21, 16, 9, 0, 839071))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-21 16:09:00,855 - app_auth - ERROR - Error saving audit trail: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (MySQLdb._exceptions.OperationalError) (1048, "Column 'item_audited_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: ('cfaa81e8-c348-4cbe-9213-dbad75032822', 'logged in', datetime.datetime(2024, 11, 21, 16, 9, 0, 839071), 'PENDING', None, 'b7eb5980-b668-494c-828e-d1898fc589a0', datetime.datetime(2024, 11, 21, 16, 9, 0, 839071))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) (Background on this error at: https://sqlalche.me/e/20/7s2a)
+2024-11-21 16:19:55,480 - app_auth - ERROR - Error saving audit trail: (MySQLdb._exceptions.OperationalError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO audit_trails (user_id, action, created_at, status, item_audited_id, id, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: (None, 'POST', datetime.datetime(2024, 11, 21, 16, 19, 55, 460738), 'FAILED', None, 'b0dfd89d-79e2-4b01-b251-13a3b031f29e', datetime.datetime(2024, 11, 21, 16, 19, 55, 460738))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

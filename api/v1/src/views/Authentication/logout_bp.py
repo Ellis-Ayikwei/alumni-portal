@@ -18,6 +18,7 @@ from api.v1.src.views import app_auth
 @jwt_required()
 def logout():
     from api.v1.app import ACCESS_EXPIRES, jwt_redis_blocklist
+    print("the haaders", request.data)
     try:
         token = get_jwt()
         logger.info(f"Logging out token: {token}")

@@ -22,6 +22,30 @@
 
 
 
-strA ="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjA5Nzk2NCwianRpIjoiYmViYWNlN2MtZTFhMi00NmIyLWI2NjMtMmI3M2ZhMjk3NzEyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IkFsdW1uaV9zdXBlcl9hZG1pbiIsIm5iZiI6MTczMjA5Nzk2NCwiY3NyZiI6IjllZDcyYTYwLWRhMTYtNDQ5My1iODQxLWFkZDRlNDFlYzRkYSIsImV4cCI6MTczMjEwMTU2NH0.lrrMtHGIuGr4xcQmiU_0T3s2wtciiqD6_2-jlTQ_oiA"
-strB = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjA5ODA1OCwianRpIjoiMDJhNmEwMjUtOTZkZC00ZWVmLWJmOWItOTY1Njc1NTY5NTJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IkFsdW1uaV9zdXBlcl9hZG1pbiIsIm5iZiI6MTczMjA5ODA1OCwiY3NyZiI6IjE1NGIyYThjLTczZmEtNGRmMC05MDEzLTFlNTBiNDQ5ZTc2YyIsImV4cCI6MTczMjEwMTY1OH0.PnhFiLwsVmcjlwwzGYs1mzPYC0RyFEaaGRLFWjz-TWY"
-print(strA==strB)
+# strA ="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjA5Nzk2NCwianRpIjoiYmViYWNlN2MtZTFhMi00NmIyLWI2NjMtMmI3M2ZhMjk3NzEyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IkFsdW1uaV9zdXBlcl9hZG1pbiIsIm5iZiI6MTczMjA5Nzk2NCwiY3NyZiI6IjllZDcyYTYwLWRhMTYtNDQ5My1iODQxLWFkZDRlNDFlYzRkYSIsImV4cCI6MTczMjEwMTU2NH0.lrrMtHGIuGr4xcQmiU_0T3s2wtciiqD6_2-jlTQ_oiA"
+# strB = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjA5ODA1OCwianRpIjoiMDJhNmEwMjUtOTZkZC00ZWVmLWJmOWItOTY1Njc1NTY5NTJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IkFsdW1uaV9zdXBlcl9hZG1pbiIsIm5iZiI6MTczMjA5ODA1OCwiY3NyZiI6IjE1NGIyYThjLTczZmEtNGRmMC05MDEzLTFlNTBiNDQ5ZTc2YyIsImV4cCI6MTczMjEwMTY1OH0.PnhFiLwsVmcjlwwzGYs1mzPYC0RyFEaaGRLFWjz-TWY"
+# print(strA==strB)
+
+
+
+import json
+
+
+someDat ={
+    "id": "454929f3-ab7d-413d-88bf-d153229b4def",
+    "group_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
+    "expiry_date": "2024-11-13T00:00:00.000Z",
+    "date_effective": "2024-11-13T00:00:00.000Z",
+    "is_signed": False,
+    "someinner":{
+        "id": "454929f3-ab7d-413d-88bf-d153229b4def",
+        "someinner_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
+        "someSome": "soomeomome"
+    }
+}
+
+
+
+const = someDat
+
+print(const.get("someinner_id"))

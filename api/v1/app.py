@@ -2,12 +2,20 @@
 """The Flask app for Sprout Collab"""
 
 import datetime
+import json
 import os
 import sys
+from colorama import Fore
 from flask import Flask, make_response, jsonify, request
 from flask_mail import Mail
 import redis
 
+from api.v1.src.services.auditslogging.logginFn import (log_audit,
+                                                        app_views_info_logger,
+                                                        app_views_debug_logger,
+                                                        app_views_error_logger,
+                                                        app_auth_info_logger,
+                                                        app_auth_error_logger)
 
 from .src.views import app_views, app_auth
 from models import storage
@@ -15,6 +23,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from models.user import User
 
 # Initialize Bcrypt and CSRF globally
 bcrypt = Bcrypt()
@@ -51,10 +60,9 @@ def create_app():
     
     app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_default_secret')
-    app.config['JWT_HEADER_NAME']  = "Authorization"
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = ACCESS_EXPIRES
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
-    # app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+    app.config['JWT_HEADER_NAME']  = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
 
 
@@ -66,7 +74,7 @@ def create_app():
     bcrypt.init_app(app)
 
     CORS(app,
-        resources={r"/*": {"origins": ["http://localhost:3000"]}},
+        resources={r"/*": {"origins": ["http://localhost:5173"]}},
         supports_credentials=True,
         expose_headers=["Authorization", "X-Refresh-Token"],
         allow_headers=["Content-Type", "Authorization", "X-Refresh-Token"],
@@ -102,6 +110,71 @@ def create_app():
         return response
         
     
+    
+    
+
+    @app.after_request
+    def log_audit_trail(response):
+        from models.audit_trails import Status
+        methods_to_audit = ["POST", "PUT", "DELETE"]
+        success_status_codes = [200, 201, 204]
+        
+        # Skip logging for non-auditable methods
+        if request.method not in methods_to_audit:
+            return response
+        
+        try:
+            # Set the action based on the request method
+            action = request.method
+
+            # Parse response data
+            try:
+                response_data = json.loads(response.data.decode('utf-8'))
+            except (ValueError, AttributeError):
+                response_data = {}
+
+            # Parse request data
+            request_data = json.loads(request.data.decode('utf-8'))
+
+            # Determine the user_id from response or request data
+            user_id = (
+                response_data.get("id") if "__class__" in response_data and response_data["__class__"] == "User" else
+                request_data.get("user_id")
+            )
+
+            # Determine the status based on response status code
+            status =  Status.COMPLETED if response.status_code in success_status_codes else Status.FAILED
+
+            # Additional audit details
+            details = {
+                "status_code": response.status_code,
+                "ip_address": request.remote_addr,
+                "method": request.method,
+                "url": request.url,
+            }
+
+            # Skip logging if status code is not 204
+            if response.status_code == 204:
+                return response
+
+            # Item audited
+            item_audited = response_data.get("id") or response_data.get("name")
+
+            # Log the audit
+            user_name = log_audit(user_id, action, status, details, item_audited=item_audited)
+
+            # Log audit trail info
+            app_views_info_logger.info(f"User: {user_name}, Action: {action}, Status: {status}, Item Audited: {item_audited}")
+        except Exception as e:
+            # Log errors
+            app_views_error_logger.error(f"Failed to log audit trail: {str(e)}")
+
+        return response
+
+
+
+
+
     # Configure Swagger
     app.config['SWAGGER'] = {
         'title': 'Sprout Collab Restful API',

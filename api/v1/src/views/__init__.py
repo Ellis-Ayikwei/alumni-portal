@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """ Blueprint for API """
+import logging
 from flask import Blueprint
 from models import storage
 
+# Create Blueprints
 app_views = Blueprint('app_views', __name__, url_prefix='/alumni/api/v1', template_folder='../templates')
 app_auth = Blueprint('app_auth', __name__, url_prefix='/alumni/api/v1/auth', template_folder='../templates')
 
@@ -21,5 +23,8 @@ from .beneficiary_bp import *
 from .authentication.register_bp import *
 from .authentication.login_bp import *
 from .authentication.logout_bp import *
-#from .authentication.auth_utility import *
+from .audit_trails_bp import *
+
+
+# from .authentication.auth_utility import *
 

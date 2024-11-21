@@ -11,16 +11,10 @@ from models.user import GroupMember, User
 
 
 @app_views.route('/alumni_groups/<group_id>/invite_code', methods=['POST'], strict_slashes=False)
-def get_group_invite(group_id):
-    """Retrieve an invite code for a user to join a specific group"""
-    print("hit the api")
-    
-    print(request.json)
+def generate_group_invite(group_id):
+    """Generate an invite code for a user to join a specific group"""
     if not request.get_json():
         abort(400, description="Not a JSON")
-    
-    
-    print('it is a json')
     
     data = request.get_json()
     user_id = data.get('user_id')
@@ -28,14 +22,16 @@ def get_group_invite(group_id):
     if user is None:
         abort(404, description="User not found")
    
-
-    invite = Invite(
-        group_id=group_id,
-        creator_id=user_id,
-    )
-    generated_invite = invite.generate_code()
-    
-    return jsonify(generated_invite.to_dict()), 200
+    invite = storage.get_session()\
+        .query(Invite).filter_by(group_id=group_id, creator_id=user_id)\
+        .first()
+            
+    if not invite:
+        invite = Invite(group_id=group_id, creator_id=user_id)
+        invite.save()
+        
+    print(" the invite already exists", invite)
+    return jsonify(invite.to_dict()), 200
 
 
 @app_views.route('/alumni_groups/my_groups/<user_id>', methods=['GET'])

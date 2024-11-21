@@ -18,6 +18,7 @@ from models.payment import Payment
 from models.group_member import GroupMember
 from models.alumni_group import AlumniGroup
 from models.amendment import Amendment
+from models.audit_trails import AuditTrails
 
 from os import getenv
 import sqlalchemy
@@ -27,6 +28,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {
     "Amendment": Amendment,
+    "AuditTrails": AuditTrails,
     "Beneficiary": Beneficiary,
     "Contract": Contract,
     "Payment": Payment,
@@ -122,3 +124,9 @@ class DBStorage:
             count = len(models.storage.all(cls).values())
 
         return count
+    
+    
+    @property
+    def get_session(self) -> scoped_session:
+        """Returns the current database session."""
+        return self.__session

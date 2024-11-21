@@ -16,38 +16,17 @@ class Invite(BaseModel, Base):
 
     code = Column(String(100), nullable=False)
     last_used_at = Column(Date, nullable=True)
-    group_id = Column(String(60), ForeignKey('alumni_groups.id'), nullable=False)
+    group_id = Column(String(60), ForeignKey('alumni_groups.id', ondelete="CASCADE"), nullable=False)
     creator_id = Column(String(60), ForeignKey('users.id'), nullable=True)
     times_used = Column(Integer, default=0)
     
 
-    def generate_code(self) -> 'Invite':
-        """Generate an invite code for a user.
 
-        Generates a new unique invite code for the specified group, user, and group member.
 
-        Returns:
-            Invite: The newly created Invite object
-        """
-        from models import storage
-        
-       
-        existing_invite: Invite = (
-            storage._DBStorage__session.query(Invite)
-            .filter_by(group_id=self.group_id, creator_id=self.creator_id)
-            .first()
-        )
-        if existing_invite:
-            return existing_invite
-        
-        new_code = generate_base62_uuid(12)
-        print("new_code", new_code)
-        self.code = new_code
-        storage.new(self)
-        storage.save()
-        return self
-        
-        
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.code = generate_base62_uuid(12)
 
 
 def generate_base62_uuid(length=8):
