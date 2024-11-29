@@ -43,3 +43,4 @@ Flask-Session
 redis
 alembic
 flask_mail
+python_dotenv

@@ -28,24 +28,28 @@
 
 
 
-import json
+# import json
 
 
-someDat ={
-    "id": "454929f3-ab7d-413d-88bf-d153229b4def",
-    "group_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
-    "expiry_date": "2024-11-13T00:00:00.000Z",
-    "date_effective": "2024-11-13T00:00:00.000Z",
-    "is_signed": False,
-    "someinner":{
-        "id": "454929f3-ab7d-413d-88bf-d153229b4def",
-        "someinner_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
-        "someSome": "soomeomome"
-    }
-}
+# someDat ={
+#     "id": "454929f3-ab7d-413d-88bf-d153229b4def",
+#     "group_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
+#     "expiry_date": "2024-11-13T00:00:00.000Z",
+#     "date_effective": "2024-11-13T00:00:00.000Z",
+#     "is_signed": False,
+#     "someinner":{
+#         "id": "454929f3-ab7d-413d-88bf-d153229b4def",
+#         "someinner_id": "2fe8e8f3-d036-410a-b5dc-025ea0e9cd73",
+#         "someSome": "soomeomome"
+#     }
+# }
 
 
 
-const = someDat
+# const = someDat
 
-print(const.get("someinner_id"))
+# print(const.get("someinner_id"))
+
+
+some = 4647676
+print(f"{some:010d}")

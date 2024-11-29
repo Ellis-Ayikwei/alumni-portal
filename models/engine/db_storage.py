@@ -10,6 +10,7 @@ from models.benefit import Benefit
 from models.claim import Claim
 from models.insurance_package import InsurancePackage
 from models.invite import Invite
+from models.invoice import Invoice
 from models.payment_method import PaymentMethod
 from models.user import User
 from models.contract import Contract
@@ -19,6 +20,7 @@ from models.group_member import GroupMember
 from models.alumni_group import AlumniGroup
 from models.amendment import Amendment
 from models.audit_trails import AuditTrails
+from models.attachments import Attachment
 
 from os import getenv
 import sqlalchemy
@@ -29,11 +31,13 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 classes = {
     "Amendment": Amendment,
     "AuditTrails": AuditTrails,
+    "Attachments": Attachment,
     "Beneficiary": Beneficiary,
     "Contract": Contract,
     "Payment": Payment,
     "Benefit": Benefit,
     "InsurancePackage": InsurancePackage,
+    "Invoice": Invoice,
     "User": User,
     "Contract_member": ContractMember,
     "GroupMember": GroupMember,

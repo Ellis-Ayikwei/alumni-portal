@@ -41,7 +41,7 @@ class AlumniGroup(BaseModel, Base):
     current_contract = relationship("Contract", primaryjoin="AlumniGroup.current_contract_id == Contract.id", post_update=True)
     
     insurance_package = relationship("InsurancePackage", back_populates="groups")
-
+    invoices = relationship("Invoice", back_populates="group")
     __table_args__ = (
         Index('ix_alumni_groups_name', 'name'),
         Index('ix_alumni_groups_school', 'school'),

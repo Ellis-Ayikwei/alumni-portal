@@ -24,6 +24,7 @@ from .authentication.register_bp import *
 from .authentication.login_bp import *
 from .authentication.logout_bp import *
 from .audit_trails_bp import *
+from .invoices_bp import *
 
 
 # from .authentication.auth_utility import *

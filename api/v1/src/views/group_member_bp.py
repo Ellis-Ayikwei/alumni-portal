@@ -11,22 +11,6 @@ from models.group_member import GroupMember
 from api.v1.src.views import app_views
 from models.invite import Invite
 
-
-
-
-# @app_views.route('/all_group_presidents', methods=['GET'])
-# def get_all_group_presidents():
-#     """Retrieve all group presidents"""
-#     group_presidents = storage.all(President)
-#     presidents_list = []
-#     for president in group_presidents:
-#         president_dict = president.to_dict()
-#         president_dict['user'] = president.user.to_dict()
-#         president["group"] = president.group.to_dict()
-#         presidents_list.append(president_dict)
-        
-#     return jsonify(presidents_list), 200
-
 @app_views.route('/group_members/my_groups_memberships/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user_group_memberships(user_id):
     """Retrieve all group memberships for a specific user"""
@@ -49,7 +33,6 @@ def get_all_group_members():
         members_list.append(member_dict)
     return jsonify(members_list), 200
 
-
 @app_views.route('/group_members/<member_id>', methods=['GET'])
 def get_group_member(member_id):
     """Retrieve a specific group member by ID"""
@@ -60,6 +43,25 @@ def get_group_member(member_id):
     member_dict['user_info'] = member.user_info.to_dict()
     member_dict["beneficiaries"] = [beneficiary.to_dict() for beneficiary in member.beneficiaries]
     return jsonify(member_dict), 200
+
+
+
+@app_views.route('/alumni_groups/<group_id>/members', methods=['GET'], strict_slashes=False)
+def get_members_of_group(group_id):
+    """Retrieve all members of a specific group"""
+    group = storage.get(AlumniGroup, group_id)
+    if group is None:
+        abort(404, description="Group not found")
+    members = group.members
+    members_list = [{
+        **member.to_dict(),
+        "user_info": {
+            "id": member.user_info.id,
+            "full_name": member.user_info.full_name
+        }
+    } for member in members]
+    return jsonify(members_list), 200
+
 
 
 @app_views.route('/alumni_groups/<group_id>/members', methods=['POST'], strict_slashes=False)
@@ -123,7 +125,6 @@ def create_group_member(group_id):
         invite.last_used_at = datetime.datetime.utcnow()
         
             
-            
     # Create new GroupMember object
     new_member = GroupMember(
         **data,
@@ -150,8 +151,6 @@ def check_group_member(group_id, member_id):
         abort(409, description=f"{existing_member.user_info.username} is already a member of the group")
     return jsonify({"status": "ok"}), 200
 
-
-
 @app_views.route('/group_members/<member_id>', methods=['PUT'])
 def update_group_member(member_id):
     """Update an existing group member"""
@@ -175,7 +174,6 @@ def update_group_member(member_id):
         member.set_isApproved()
     storage.save()
     return jsonify(member.to_dict()), 200
-
 
 @app_views.route('/group_members/<member_id>', methods=['DELETE'])
 def delete_group_member(member_id):

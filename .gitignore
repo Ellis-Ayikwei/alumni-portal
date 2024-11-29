@@ -3,3 +3,4 @@ configs/
 Scripts/
 include/
 lib
+.env

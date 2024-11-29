@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-"""The Flask app for Sprout Collab"""
 
 import datetime
 import json
@@ -9,6 +7,9 @@ from colorama import Fore
 from flask import Flask, make_response, jsonify, request
 from flask_mail import Mail
 import redis
+from flask_uploads import configure_uploads, UploadSet, ALL
+from pathlib import Path
+from dotenv import load_dotenv
 
 from api.v1.src.services.auditslogging.logginFn import (log_audit,
                                                         app_views_info_logger,
@@ -25,15 +26,15 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from models.user import User
 
-# Initialize Bcrypt and CSRF globally
 bcrypt = Bcrypt()
 mail = Mail()
 jwt_redis_blocklist = redis.StrictRedis(
     host="localhost", port=6379, db=0, decode_responses=True
 )
+load_dotenv()
 
 ACCESS_EXPIRES = datetime.timedelta(hours=1)
-
+uploaded_files = UploadSet('files', ALL)
 def create_app():
     app = Flask(__name__)
     jwt =JWTManager(app)
@@ -41,6 +42,7 @@ def create_app():
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
     app.config['FLASK_MAIL_DEBUG'] = True
     
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
@@ -49,6 +51,8 @@ def create_app():
 
     print(os.getenv('MAIL_USERNAME'))
     print(os.getenv('MAIL_PASSWORD'))
+    print(app.config['MAIL_USERNAME'])
+    print(app.config['MAIL_PASSWORD'])
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')  
     mail.init_app(app)
     
@@ -64,6 +68,11 @@ def create_app():
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config['JWT_HEADER_NAME']  = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
+    
+    app.config['UPLOADED_FILES_DEST'] = './uploads'
+    
+    configure_uploads(app, uploaded_files)
+    
 
 
     app.config["CORS_HEADERS"] = ["Content-Type", "Authorization", "X-Refresh-Token"]
@@ -113,63 +122,63 @@ def create_app():
     
     
 
-    @app.after_request
-    def log_audit_trail(response):
-        from models.audit_trails import Status
-        methods_to_audit = ["POST", "PUT", "DELETE"]
-        success_status_codes = [200, 201, 204]
+    # @app.after_request
+    # def log_audit_trail(response):
+    #     from models.audit_trails import Status
+    #     methods_to_audit = ["POST", "PUT", "DELETE"]
+    #     success_status_codes = [200, 201, 204]
         
-        # Skip logging for non-auditable methods
-        if request.method not in methods_to_audit:
-            return response
+    #     # Skip logging for non-auditable methods
+    #     if request.method not in methods_to_audit:
+    #         return response
         
-        try:
-            # Set the action based on the request method
-            action = request.method
+    #     try:
+    #         # Set the action based on the request method
+    #         action = request.method
 
-            # Parse response data
-            try:
-                response_data = json.loads(response.data.decode('utf-8'))
-            except (ValueError, AttributeError):
-                response_data = {}
+    #         # Parse response data
+    #         try:
+    #             response_data = json.loads(response.data.decode('utf-8'))
+    #         except (ValueError, AttributeError):
+    #             response_data = {}
 
-            # Parse request data
-            request_data = json.loads(request.data.decode('utf-8'))
+    #         # Parse request data
+    #         request_data = json.loads(request.data.decode('utf-8'))
 
-            # Determine the user_id from response or request data
-            user_id = (
-                response_data.get("id") if "__class__" in response_data and response_data["__class__"] == "User" else
-                request_data.get("user_id")
-            )
+    #         # Determine the user_id from response or request data
+    #         user_id = (
+    #             response_data.get("id") if "__class__" in response_data and response_data["__class__"] == "User" else
+    #             request_data.get("user_id")
+    #         )
 
-            # Determine the status based on response status code
-            status =  Status.COMPLETED if response.status_code in success_status_codes else Status.FAILED
+    #         # Determine the status based on response status code
+    #         status =  Status.COMPLETED if response.status_code in success_status_codes else Status.FAILED
 
-            # Additional audit details
-            details = {
-                "status_code": response.status_code,
-                "ip_address": request.remote_addr,
-                "method": request.method,
-                "url": request.url,
-            }
+    #         # Additional audit details
+    #         details = {
+    #             "status_code": response.status_code,
+    #             "ip_address": request.remote_addr,
+    #             "method": request.method,
+    #             "url": request.url,
+    #         }
 
-            # Skip logging if status code is not 204
-            if response.status_code == 204:
-                return response
+    #         # Skip logging if status code is not 204
+    #         if response.status_code == 204:
+    #             return response
 
-            # Item audited
-            item_audited = response_data.get("id") or response_data.get("name")
+    #         # Item audited
+    #         item_audited = response_data.get("id") or response_data.get("name")
 
-            # Log the audit
-            user_name = log_audit(user_id, action, status, details, item_audited=item_audited)
+    #         # Log the audit
+    #         user_name = log_audit(user_id, action, status, details, item_audited=item_audited)
 
-            # Log audit trail info
-            app_views_info_logger.info(f"User: {user_name}, Action: {action}, Status: {status}, Item Audited: {item_audited}")
-        except Exception as e:
-            # Log errors
-            app_views_error_logger.error(f"Failed to log audit trail: {str(e)}")
+    #         # Log audit trail info
+    #         app_views_info_logger.info(f"User: {user_name}, Action: {action}, Status: {status}, Item Audited: {item_audited}")
+    #     except Exception as e:
+    #         # Log errors
+    #         app_views_error_logger.error(f"Failed to log audit trail: {str(e)}")
 
-        return response
+    #     return response
 
 
 
@@ -201,7 +210,10 @@ def create_app():
 
     return app
 
+
+
 if __name__ == "__main__":
     app = create_app()
     app.run(host="0.0.0.0", port=5004, threaded=True, debug=True)
+
 

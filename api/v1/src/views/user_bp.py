@@ -94,7 +94,6 @@ def update_user(user_id: str) -> tuple:
     """
     Updates a User
     """
-    print("api hit") 
     data = request.get_json()
     if not data:
         abort(400, description="Not a JSON")

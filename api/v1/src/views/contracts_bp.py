@@ -2,6 +2,7 @@ from flask import Flask, json, jsonify, request, abort
 from models import storage, user
 from models.contract import Contract
 from models.contract import Status as ContractStatus
+from models.alumni_group import AlumniGroup
 
 from api.v1.src.views import app_views
 from models.contract_member import ContractMember
@@ -31,6 +32,34 @@ def get_contracts_for_user(user_id: str) -> tuple[list[dict], int]:
         })
 
     return jsonify(contracts_list), 200
+
+
+@app_views.route('/contracts/my_contracts/<string:group_id>', methods=['GET'])
+def get_contracts_for_group(group_id: str) -> tuple[list[dict], int]:
+    """Retrieve all contracts for a group
+
+    Args:
+        group_id (str): The ID of the group
+
+    Returns:
+        tuple[list[dict], int]: A list of contracts and a status code
+    """
+    all_contracts = storage.all(Contract).values()
+    group_contracts: list[Contract] = [contract.to_dict() for contract in all_contracts if contract.group_id == group_id]
+
+    # group_contracts: list[dict] = [c.contract for c in group_contracts_memberships]
+    # contracts_list: list[dict] = []
+    # for contract in group_contracts:
+    #     print(contract.name)
+    #     contracts_list.append({
+    #         "name": contract.name,
+    #         "id": contract.id,
+    #         "group": contract.group.name,
+    #         "signed_date": contract.signed_date,
+    #         "underwriter": contract.underwriter.full_name if contract.underwriter else None,
+    #     })
+
+    return jsonify(group_contracts), 200
 
 
 
@@ -68,7 +97,7 @@ def create_contract():
 
     data = request.json
     print(data)
-    required_fields = ['group_id', 'expiry_date', 'signed_date', 'status', 'underwriter_id', 'insurance_package_id']
+    required_fields = ['group_id', 'expiry_date', 'status', 'underwriter_id', 'insurance_package_id']
     for field in required_fields:
         if field not in data:
             # if field == "underwriter_id":
@@ -79,10 +108,14 @@ def create_contract():
     new_contract = Contract(
        **data
     )
+    storage.new(new_contract)    
+    group = storage.get(AlumniGroup, data["group_id"])
+    if not group:
+        abort(404, description="Group not found")
+        
+    group.current_contract_id = new_contract.id
     
-    
-    
-    storage.new(new_contract)
+    storage.new(group)
     storage.save()
 
     return jsonify(new_contract.to_dict()), 201
