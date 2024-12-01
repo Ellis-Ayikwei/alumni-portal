@@ -1,0 +1,514 @@
+[
+  {
+    "duration": 30,
+    "image": "workouts/chest/cable-crossover.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 4,
+    "workoutName": "Cable Crossover",
+    "workoutId": 10
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/flyes.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 2,
+    "workoutName": "Flyes",
+    "workoutId": 6
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/incline.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 1,
+    "workoutName": "Incline Bench Press",
+    "workoutId": 1
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/pullovers.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 6,
+    "workoutName": "Pullovers",
+    "workoutId": 13
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/decline-flyes.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 3,
+    "workoutName": "Decline Flyes",
+    "workoutId": 8
+  },
+  {
+    "duration": 30,
+    "image": "workouts/core/woodchoppers.png",
+    "muscleGroupId": 7,
+    "submuscleGroupId": 3,
+    "workoutName": "Woodchoppers",
+    "workoutId": 64
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/dumbbell-curls.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 1,
+    "workoutName": "Dumbbell Curls",
+    "workoutId": 36
+  },
+  {
+    "duration": 45,
+    "image": "workouts/shoulders/overhead-press.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 1,
+    "workoutName": "Overhead Press",
+    "workoutId": 27
+  },
+  {
+    "duration": 45,
+    "image": "workouts/shoulders/farmers-walks.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 4,
+    "workoutName": "Farmers Walks",
+    "workoutId": 34
+  },
+  {
+    "duration": 45,
+    "image": "workouts/arms/dips.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 5,
+    "workoutName": "Dips",
+    "workoutId": 43
+  },
+  {
+    "duration": 45,
+    "image": "workouts/back/hip-thrusts.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 5,
+    "workoutName": "Hip Thrusts",
+    "workoutId": 25
+  },
+  {
+    "duration": 45,
+    "image": "workouts/arms/close-grip-bench-press.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 5,
+    "workoutName": "Close-Grip Bench Press",
+    "workoutId": 44
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/barbell-shrugs.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 4,
+    "workoutName": "Barbell Shrugs",
+    "workoutId": 33
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/upright-rows.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 2,
+    "workoutName": "Upright Rows",
+    "workoutId": 30
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/reverse-crunches.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 2,
+    "workoutName": "Reverse Crunches",
+    "workoutId": 58
+  },
+  {
+    "duration": 30,
+    "image": "workouts/legs/leg-curls.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 2,
+    "workoutName": "Leg Curls",
+    "workoutId": 49
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/reverse-flyes.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 3,
+    "workoutName": "Reverse Flyes",
+    "workoutId": 31
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/face-pulls.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 3,
+    "workoutName": "Face Pulls",
+    "workoutId": 32
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/seated-cable-row.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 2,
+    "workoutName": "Seated Cable Row",
+    "workoutId": 17
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/side-planks.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 3,
+    "workoutName": "Side Planks",
+    "workoutId": 60
+  },
+  {
+    "duration": 45,
+    "image": "workouts/legs/glute-bridges.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 3,
+    "workoutName": "Glute Bridges",
+    "workoutId": 52
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/incline-flyes.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 1,
+    "workoutName": "Incline Flyes",
+    "workoutId": 2
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/bench-press.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 2,
+    "workoutName": "Bench Press",
+    "workoutId": 4
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/incline-dumbbell-press.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 1,
+    "workoutName": "Incline Dumbbell Press",
+    "workoutId": 3
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/crunches.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 1,
+    "workoutName": "Crunches",
+    "workoutId": 55
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/tricep-pushdowns.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 4,
+    "workoutName": "Tricep Pushdowns",
+    "workoutId": 42
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/barbell-curls.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 1,
+    "workoutName": "Barbell Curls",
+    "workoutId": 35
+  },
+  {
+    "duration": 45,
+    "image": "workouts/arms/chin-ups.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 2,
+    "workoutName": "Chin Ups",
+    "workoutId": 38
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/dips.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 3,
+    "workoutName": "Dips",
+    "workoutId": 9
+  },
+  {
+    "duration": 45,
+    "image": "workouts/back/pullups.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 1,
+    "workoutName": "Pullups",
+    "workoutId": 15
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/face-pulls.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 3,
+    "workoutName": "Face Pulls",
+    "workoutId": 20
+  },
+  {
+    "duration": 30,
+    "image": "workouts/legs/calf-raises.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 4,
+    "workoutName": "Calf Raises",
+    "workoutId": 53
+  },
+  {
+    "duration": 45,
+    "image": "workouts/core/planks.png",
+    "muscleGroupId": 7,
+    "submuscleGroupId": 3,
+    "workoutName": "Planks",
+    "workoutId": 63
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/dumbbell-shrugs.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 2,
+    "workoutName": "Dumbbell Shrugs",
+    "workoutId": 19
+  },
+  {
+    "duration": 45,
+    "image": "workouts/legs/hip-thrusts.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 3,
+    "workoutName": "Hip Thrusts",
+    "workoutId": 51
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/concentration-curls.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 3,
+    "workoutName": "Concentration Curls",
+    "workoutId": 40
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/lateral-raises.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 2,
+    "workoutName": "Lateral Raises",
+    "workoutId": 29
+  },
+  {
+    "duration": 45,
+    "image": "workouts/back/good-mornings.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 5,
+    "workoutName": "Good Mornings",
+    "workoutId": 26
+  },
+  {
+    "duration": 30,
+    "image": "workouts/legs/romanian-deadlifts.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 2,
+    "workoutName": "Romanian Deadlifts",
+    "workoutId": 50
+  },
+  {
+    "duration": 30,
+    "image": "workouts/legs/seated-calf-raises.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 4,
+    "workoutName": "Seated Calf Raises",
+    "workoutId": 54
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/leg-raises.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 1,
+    "workoutName": "Leg Raises",
+    "workoutId": 56
+  },
+  {
+    "duration": 45,
+    "image": "workouts/arms/preacher-curls.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 3,
+    "workoutName": "Preacher Curls",
+    "workoutId": 39
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/decline-bench-press.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 3,
+    "workoutName": "Decline Bench Press",
+    "workoutId": 7
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/lat-pulldown.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 1,
+    "workoutName": "Lat Pulldown",
+    "workoutId": 16
+  },
+  {
+    "duration": 45,
+    "image": "workouts/arms/skull-crushers.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 4,
+    "workoutName": "Skull Crushers",
+    "workoutId": 41
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/barbell-shrugs.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 2,
+    "workoutName": "Barbell Shrugs",
+    "workoutId": 18
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/kickbacks.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 6,
+    "workoutName": "Kickbacks",
+    "workoutId": 46
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/pec-deck-flye.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 4,
+    "workoutName": "Pec Deck Flye",
+    "workoutId": 11
+  },
+  {
+    "duration": 45,
+    "image": "workouts/back/seated-cable-rows.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 4,
+    "workoutName": "Seated Cable Rows",
+    "workoutId": 23
+  },
+  {
+    "duration": 30,
+    "image": "workouts/back/reverse-flyes.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 3,
+    "workoutName": "Reverse Flyes",
+    "workoutId": 21
+  },
+  {
+    "duration": 30,
+    "image": "workouts/core/supermans.png",
+    "muscleGroupId": 7,
+    "submuscleGroupId": 1,
+    "workoutName": "Supermans",
+    "workoutId": 61
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/russian-twists.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 3,
+    "workoutName": "Russian Twists",
+    "workoutId": 59
+  },
+  {
+    "duration": 30,
+    "image": "workouts/shoulders/front-raises.png",
+    "muscleGroupId": 3,
+    "submuscleGroupId": 1,
+    "workoutName": "Front Raises",
+    "workoutId": 28
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/dumbbell-flyes.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 5,
+    "workoutName": "Dumbbell Flyes",
+    "workoutId": 12
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/tricep-extensions.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 6,
+    "workoutName": "Tricep Extensions",
+    "workoutId": 45
+  },
+  {
+    "duration": 45,
+    "image": "workouts/back/bent-over-rows.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 4,
+    "workoutName": "Bent Over Rows",
+    "workoutId": 22
+  },
+  {
+    "duration": 30,
+    "image": "workouts/arms/hammer-curls.png",
+    "muscleGroupId": 4,
+    "submuscleGroupId": 2,
+    "workoutName": "Hammer Curls",
+    "workoutId": 37
+  },
+  {
+    "duration": 30,
+    "image": "workouts/abs/hanging-leg-raises.png",
+    "muscleGroupId": 6,
+    "submuscleGroupId": 2,
+    "workoutName": "Hanging Leg Raises",
+    "workoutId": 57
+  },
+  {
+    "duration": 30,
+    "image": "workouts/chest/pushups.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 2,
+    "workoutName": "Pushups",
+    "workoutId": 5
+  },
+  {
+    "duration": 30,
+    "image": "workouts/core/russian-twists.png",
+    "muscleGroupId": 7,
+    "submuscleGroupId": 2,
+    "workoutName": "Russian Twists",
+    "workoutId": 62
+  },
+  {
+    "duration": 60,
+    "image": "workouts/back/deadlifts.png",
+    "muscleGroupId": 2,
+    "submuscleGroupId": 5,
+    "workoutName": "Deadlifts",
+    "workoutId": 24
+  },
+  {
+    "duration": 45,
+    "image": "workouts/legs/squats.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 1,
+    "workoutName": "Squats",
+    "workoutId": 47
+  },
+  {
+    "duration": 45,
+    "image": "workouts/chest/scarecrows.png",
+    "muscleGroupId": 1,
+    "submuscleGroupId": 6,
+    "workoutName": "Scarecrows",
+    "workoutId": 14
+  },
+  {
+    "duration": 45,
+    "image": "workouts/legs/lunges.png",
+    "muscleGroupId": 5,
+    "submuscleGroupId": 1,
+    "workoutName": "Lunges",
+    "workoutId": 48
+  }
+]

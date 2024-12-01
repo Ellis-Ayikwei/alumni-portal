@@ -6,14 +6,14 @@ from models import storage
 from datetime import date as dt
 
 import models
-from models.basemodel import BaseModel, Base
-from models.beneficiary import Beneficiary
+# from models.basemodel import BaseModel, Base
+# from models.beneficiary import Beneficiary
 from models.user import User
-from models.contract import Contract
-from models.contract_member import ContractMember
-from models.payment import Payment
-from models.group_member import GroupMember
-from models.alumni_group import AlumniGroup
+# from models.contract import Contract
+# from models.contract_member import ContractMember
+# from models.payment import Payment
+# from models.group_member import GroupMember
+# from models.alumni_group import AlumniGroup
 
 # "013f6e28-855a-4c9b-8213-1a911aefe22c"
 

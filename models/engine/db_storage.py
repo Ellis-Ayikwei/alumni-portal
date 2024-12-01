@@ -5,22 +5,8 @@ Contains the class DBStorage
 
 import models
 from models.basemodel import BaseModel, Base
-from models.beneficiary import Beneficiary
-from models.benefit import Benefit
-from models.claim import Claim
-from models.insurance_package import InsurancePackage
-from models.invite import Invite
-from models.invoice import Invoice
-from models.payment_method import PaymentMethod
-from models.user import User
-from models.contract import Contract
-from models.contract_member import ContractMember
-from models.payment import Payment
-from models.group_member import GroupMember
-from models.alumni_group import AlumniGroup
-from models.amendment import Amendment
+
 from models.audit_trails import AuditTrails
-from models.attachments import Attachment
 
 from os import getenv
 import sqlalchemy
@@ -28,23 +14,32 @@ from sqlalchemy import create_engine
 from configs.sqlEngineConfig import db_url
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+from models.client import Client
+from models.coach import Coach
+from models.exercise import Exercise
+from models.fitness_goal import FitnessGoal
+from models.meal_plan import MealPlan
+from models.muscle_group import MuscleGroup
+from models.post import Post
+from models.user import User
+from models.workout import Workout
+from models.workout_level import WorkoutLevel
+from models.workout_plan import WorkoutPlan
+
 classes = {
-    "Amendment": Amendment,
+    "BaseModel": BaseModel,
     "AuditTrails": AuditTrails,
-    "Attachments": Attachment,
-    "Beneficiary": Beneficiary,
-    "Contract": Contract,
-    "Payment": Payment,
-    "Benefit": Benefit,
-    "InsurancePackage": InsurancePackage,
-    "Invoice": Invoice,
     "User": User,
-    "Contract_member": ContractMember,
-    "GroupMember": GroupMember,
-    "PaymentMethod": PaymentMethod,
-    "Alumni_group": AlumniGroup,
-    "Claim": Claim,
-    "Invite": Invite,
+    "Client": Client,
+    "Coach": Coach,
+    "Workout": Workout,
+    "Exercise": Exercise,
+    "Post": Post,
+    "MuscleGroup": MuscleGroup,
+    "WorkoutPlan": WorkoutPlan,
+    "WorkoutLevel": WorkoutLevel,
+    "MealPlan": MealPlan,
+    "FitnessGoal": FitnessGoal
 }
 
 

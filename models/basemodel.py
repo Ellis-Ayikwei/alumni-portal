@@ -17,7 +17,7 @@ Base = declarative_base()
 time = "%Y-%m-%dT%H:%M:%S.%f"
 class BaseModel():
     """the class difinition for the base model"""
-    id = Column(String(60), primary_key=True)
+    id = Column(String(60), primary_key=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
     

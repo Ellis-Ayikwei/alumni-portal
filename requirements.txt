@@ -44,3 +44,5 @@ redis
 alembic
 flask_mail
 python_dotenv
+flask_bcrypt
+flask_reuploaded

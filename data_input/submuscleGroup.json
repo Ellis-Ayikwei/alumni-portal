@@ -1,0 +1,135 @@
+[
+  {
+    "subId": 18,
+    "description": "The abductor muscles, including the tensor fasciae latae and gluteus medius, are responsible for moving the limbs away from the midline of the body.",
+    "subMuscleName": "Abductors",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  },
+  {
+    "subId": 6,
+    "description": "The gluteal muscles, or glutes, are located in the buttocks and play a crucial role in hip movement, stability, and posture.",
+    "subMuscleName": "Glutes",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  },
+  {
+    "subId": 12,
+    "description": "The muscles of the upper back, including the rhomboids and trapezius, are involved in movements like shoulder retraction, elevation, and rotation.",
+    "subMuscleName": "Upper Back",
+    "mainMuscle": "Back",
+    "mainMuscleId": 2
+  },
+  {
+    "subId": 11,
+    "description": "The muscles of the spine, including the erector spinae and multifidus, provide support and stability to the vertebral column, enabling movements like bending and twisting.",
+    "subMuscleName": "Spine",
+    "mainMuscle": "Core",
+    "mainMuscleId": 7
+  },
+  {
+    "subId": 7,
+    "description": "The hamstring muscles, located at the back of the thigh, are responsible for flexing the knee and extending the hip joint.",
+    "subMuscleName": "Hamstrings",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  },
+  {
+    "subId": 1,
+    "description": "The abdominal muscles, commonly referred to as abs, are a group of muscles that provide core stability and support trunk movements.",
+    "subMuscleName": "Abs",
+    "mainMuscle": "Core",
+    "mainMuscleId": 7
+  },
+  {
+    "subId": 17,
+    "description": "The serratus anterior muscle is located on the side of the chest and rib cage and is involved in movements like pushing and pulling the arms away from the body.",
+    "subMuscleName": "Serratus Anterior",
+    "mainMuscle": "Chest",
+    "mainMuscleId": 1
+  },
+  {
+    "subId": 14,
+    "description": "The deltoid muscles, or delts, are located on the shoulder and are responsible for various arm movements like abduction, flexion, and extension.",
+    "subMuscleName": "Delts",
+    "mainMuscle": "Shoulders",
+    "mainMuscleId": 3
+  },
+  {
+    "subId": 5,
+    "description": "The pectoral muscles, commonly known as pecs, are located in the chest region and are involved in movements like pushing and lifting.",
+    "subMuscleName": "Pectorals",
+    "mainMuscle": "Chest",
+    "mainMuscleId": 1
+  },
+  {
+    "subId": 16,
+    "description": "The trapezius muscles, or traps, are large muscles of the upper back and neck that help with movements like shrugging, pulling, and rotating the shoulder.",
+    "subMuscleName": "Traps",
+    "mainMuscle": "Back",
+    "mainMuscleId": 2
+  },
+  {
+    "subId": 10,
+    "description": "The cardiovascular system includes the heart and blood vessels and is responsible for transporting oxygen, nutrients, and waste products throughout the body.",
+    "subMuscleName": "Cardiovascular System",
+    "mainMuscle": "Cardio",
+    "mainMuscleId": 8
+  },
+  {
+    "subId": 8,
+    "description": "The adductor muscles are located on the inner thigh and are responsible for bringing the legs together and stabilizing the hip joint.",
+    "subMuscleName": "Adductors",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  },
+  {
+    "subId": 9,
+    "description": "The triceps brachii muscles, commonly known as triceps, are located on the back of the upper arm and are responsible for extending the elbow.",
+    "subMuscleName": "Triceps",
+    "mainMuscle": "Arms",
+    "mainMuscleId": 4
+  },
+  {
+    "subId": 19,
+    "description": "The levator scapulae muscle is located at the back and side of the neck and is involved in movements like shrugging and rotating the scapula.",
+    "subMuscleName": "Levator Scapulae",
+    "mainMuscle": "Back",
+    "mainMuscleId": 2
+  },
+  {
+    "subId": 3,
+    "description": "The latissimus dorsi muscles, or lats, are large muscles of the back that help with various movements like pulling, lifting, and swimming.",
+    "subMuscleName": "Lats",
+    "mainMuscle": "Back",
+    "mainMuscleId": 2
+  },
+  {
+    "subId": 15,
+    "description": "The muscles of the forearms, including the flexors and extensors, are involved in movements like gripping, bending, and rotating the wrist and fingers.",
+    "subMuscleName": "Forearms",
+    "mainMuscle": "Arms",
+    "mainMuscleId": 4
+  },
+  {
+    "subId": 4,
+    "description": "The calf muscles, including the gastrocnemius and soleus, are located in the lower leg and are responsible for plantar flexion of the foot.",
+    "subMuscleName": "Calves",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  },
+  {
+    "subId": 13,
+    "description": "The biceps brachii muscles, commonly known as biceps, are located on the front of the upper arm and are responsible for flexing the elbow and supinating the forearm.",
+    "subMuscleName": "Biceps",
+    "mainMuscle": "Arms",
+    "mainMuscleId": 4
+  },
+  {
+    "subId": 2,
+    "description": "The quadriceps muscles, located in the front of the thigh, are responsible for extending the knee and flexing the hip joint.",
+    "subMuscleName": "Quads",
+    "mainMuscle": "Legs",
+    "mainMuscleId": 5
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "Level_name": "Custom",
+    "Description": "Custom workouts allow users to tailor their exercise experience to their specific goals and preferences. It's ideal for those who want a personalized fitness plan.",
+    "id": 4,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fcustom.png?alt=media&token=208ce51a-5e1e-49d5-ab7f-52610d579f07"
+  },
+  {
+    "Level_name": "Pregnancy/Postpartum",
+    "Description": "For women's fitness, the pregnancy/postpartum level accommodates the unique needs of pregnant and postpartum individuals. It emphasizes safety and appropriate exercises during these stages.",
+    "id": 7,
+    "female": true,
+    "male": false,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fpregnant.png?alt=media&token=f7bb4160-7b1e-4215-a18c-36d7b56c85d7"
+  },
+  {
+    "Level_name": "Intermediate",
+    "Description": "Intermediate-level workouts are designed for users with some prior fitness experience. These workouts offer a slightly higher challenge level for those looking to progress in their fitness journey.",
+    "id": 2,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fintermediate.png?alt=media&token=cd36c0bc-6d6e-4936-af10-d7175dbc2720"
+  },
+  {
+    "Level_name": "Model",
+    "Description": "The senior level caters to older adults and their unique needs, such as low-impact exercises, balance training, and flexibility work.",
+    "id": 9,
+    "female": true,
+    "male": false,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Finfluencer.png?alt=media&token=5a717e73-be4a-4942-b257-df2a12907328"
+  },
+  {
+    "Level_name": "Rehab/Injury Prevention",
+    "Description": "This level is designed for users recovering from injuries or with specific physical limitations. Workouts are focused on rehabilitation and injury prevention, often with guidance from a healthcare professional.",
+    "id": 6,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Frehab.png?alt=media&token=00d5f557-aa68-43a2-9648-2186822cff9f"
+  },
+  {
+    "Level_name": "Senior",
+    "Description": "The senior level caters to older adults and their unique needs, such as low-impact exercises, balance training, and flexibility work.",
+    "id": 8,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fsenior.png?alt=media&token=195321ec-6fae-4e71-9072-87761af93497"
+  },
+  {
+    "Level_name": "Advanced",
+    "Description": "Advanced-level workouts are suitable for individuals with a high level of fitness experience. They are more intense and may include advanced exercises and training techniques.",
+    "id": 3,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fadvanced.png?alt=media&token=3f98005f-6013-4120-8d94-d60c8c0cac4b"
+  },
+  {
+    "Level_name": "Athlete",
+    "Description": "The athlete level is for those who are already in good shape and have athletic or sports-specific goals. Workouts are tailored to enhance performance in a particular sport or activity.",
+    "id": 5,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fathlete.png?alt=media&token=4dee8125-ab14-4451-b931-0ecedf91b409"
+  },
+  {
+    "Level_name": "Beginner",
+    "Description": "This level is perfect for those who are new to exercise or just starting their fitness journey. It focuses on building a solid foundation of strength, flexibility, and endurance.",
+    "id": 1,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fbeginner.png?alt=media&token=51e58a97-8f27-4cc6-8ebd-785cc8c22c9d"
+  },
+  {
+    "Level_name": "Stretches",
+    "Description": "The senior level caters to older adults and their unique needs, such as low-impact exercises, balance training, and flexibility work.",
+    "id": 11,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fstretch.png?alt=media&token=1024a2f6-4817-4925-89c3-35f30b103fd4"
+  },
+  {
+    "Level_name": "Mobility",
+    "Description": "The senior level caters to older adults and their unique needs, such as low-impact exercises, balance training, and flexibility work.",
+    "id": 10,
+    "female": true,
+    "male": true,
+    "image": "https://firebasestorage.googleapis.com/v0/b/flint-fitness.appspot.com/o/workoutLevels%2Fstretch.png?alt=media&token=1024a2f6-4817-4925-89c3-35f30b103fd4"
+  }
+]

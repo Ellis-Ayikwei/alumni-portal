@@ -1,0 +1,87 @@
+[
+  {
+    "muscleGroupId": 15,
+    "description": "The shoulder muscles, or deltoids, are responsible for various arm movements, including lifting, reaching, and rotating.",
+    "muscleGroupName": "Shoulders"
+  },
+  {
+    "muscleGroupId": 5,
+    "description": "The leg muscles, including the quadriceps, hamstrings, glutes, and calves, support the body's weight and facilitate movements like walking, running, and jumping.",
+    "muscleGroupName": "Legs"
+  },
+  {
+    "muscleGroupId": 6,
+    "description": "The abdominal muscles, or abs, consist of various muscle groups like the rectus abdominis, obliques, and transverse abdominis, which provide core stability and help with trunk movements.",
+    "muscleGroupName": "Abs"
+  },
+  {
+    "muscleGroupId": 9,
+    "description": "The muscles of the upper legs, such as the quadriceps and hamstrings, are crucial for activities like walking, running, and squatting.",
+    "muscleGroupName": "Upper Legs"
+  },
+  {
+    "muscleGroupId": 13,
+    "description": "The upper arm muscles, including the biceps and triceps, are involved in various movements like bending and straightening the elbow.",
+    "muscleGroupName": "Upper Arms"
+  },
+  {
+    "muscleGroupId": 1,
+    "description": "The chest muscles, also known as the pectorals, are a group of muscles that help move the arms and shoulders.",
+    "muscleGroupName": "Chest"
+  },
+  {
+    "muscleGroupId": 16,
+    "description": "The muscles of the lower arms, such as the wrist flexors and extensors, are involved in activities like gripping and lifting.",
+    "muscleGroupName": "Lower Arms"
+  },
+  {
+    "muscleGroupId": 17,
+    "description": "Neck muscles provide support and mobility to the head and neck region, allowing for movements like turning and tilting.",
+    "muscleGroupName": "Neck"
+  },
+  {
+    "muscleGroupId": 14,
+    "description": "Cardiovascular exercises target the heart and lungs, improving overall fitness and endurance.",
+    "muscleGroupName": "Cardio"
+  },
+  {
+    "muscleGroupId": 7,
+    "description": "The core muscles, including the lower back, obliques, and transverse abdominis, provide stability to the spine and pelvis, aiding in posture and movement control.",
+    "muscleGroupName": "Core"
+  },
+  {
+    "muscleGroupId": 12,
+    "description": "The chest muscles, also known as the pectorals, are important for movements like pushing and lifting objects.",
+    "muscleGroupName": "Chest"
+  },
+  {
+    "muscleGroupId": 3,
+    "description": "The shoulder muscles, or deltoids, consist of three heads (front, side, and rear) and are involved in various arm movements, including lifting and rotating the arms.",
+    "muscleGroupName": "Shoulders"
+  },
+  {
+    "muscleGroupId": 11,
+    "description": "Lower leg muscles, like the calves, play a vital role in activities such as walking, running, and jumping.",
+    "muscleGroupName": "Lower Legs"
+  },
+  {
+    "muscleGroupId": 10,
+    "description": "The back muscles, including the latissimus dorsi, traps, and rhomboids, are responsible for stabilizing the spine and facilitating movements like pulling and lifting.",
+    "muscleGroupName": "Back"
+  },
+  {
+    "muscleGroupId": 4,
+    "description": "The arm muscles comprise the biceps, triceps, and brachialis, which are responsible for elbow flexion and extension, as well as forearm rotation.",
+    "muscleGroupName": "Arms"
+  },
+  {
+    "muscleGroupId": 8,
+    "description": "Waist muscles are essential for trunk stability and twisting movements. They include muscles like the obliques and transverse abdominis.",
+    "muscleGroupName": "Waist"
+  },
+  {
+    "muscleGroupId": 2,
+    "description": "The back muscles, including the latissimus dorsi, traps, and rhomboids, are responsible for stabilizing the spine and facilitating movements like pulling and lifting.",
+    "muscleGroupName": "Back"
+  }
+]
